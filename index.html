@@ -284,6 +284,18 @@
   }
   .gap-note.over { background: #fff3e0; border: 2px solid #ffe0b2; }
   .gap-note.under { background: #e8f5e9; border: 2px solid #c8e6c9; }
+  .gap-note.info { background: #ede7f6; border: 2px solid #d1c4e9; }
+
+  /* Year-by-year table */
+  .yearwrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 4px; }
+  table.years { border-collapse: collapse; width: 100%; min-width: 340px; font-size: 0.82em; }
+  table.years th, table.years td { padding: 8px 6px; text-align: right; white-space: nowrap; }
+  table.years th { font-size: 0.85em; font-weight: 700; color: #4a3f6b; border-bottom: 2px solid #ece8e2; }
+  table.years td { border-bottom: 1px solid #f4f1ec; color: #555; }
+  table.years th:first-child, table.years td:first-child { text-align: left; font-weight: 700; color: #4a3f6b; }
+  table.years td.borrow { font-weight: 700; color: #333; }
+  table.years tr.total td { border-bottom: none; border-top: 2px solid #ece8e2; font-weight: 800; color: #4a3f6b; }
+  .yearnote { font-size: 0.76em; color: #999; margin-top: 8px; line-height: 1.5; }
 
   .footer {
     text-align: center;
@@ -308,8 +320,8 @@
   <p class="desc">These numbers come straight off your Financial Aid Award Letter from Lancaster Bible College. Don't have it yet? Start with a preset and update the numbers when it arrives.</p>
 
   <div class="tabs" id="preset-tabs">
-    <button class="tab active" onclick="loadPreset('typical', this)">Typical</button>
-    <button class="tab" onclick="loadPreset('best', this)">Great Aid</button>
+    <button class="tab active" onclick="loadPreset('typical', this)">Her Letter</button>
+    <button class="tab" onclick="loadPreset('avg', this)">LBC Average</button>
     <button class="tab" onclick="loadPreset('blank', this)">I'll Enter My Own</button>
   </div>
 
@@ -317,10 +329,10 @@
     <div class="field">
       <label>Cost of Attendance <span class="hint">— per year</span></label>
       <div class="input-wrap dollar">
-        <input type="number" id="in-cost" value="43511">
+        <input type="number" id="in-cost" value="45650">
         <span class="input-suffix">/ year</span>
       </div>
-      <span class="hint">Total from your letter: tuition + room + board + fees + books.</span>
+      <span class="hint">LBC's 2026-27 <strong>direct billed</strong> cost is $45,650 — tuition $31,190 + fees $700 + food $6,950 + housing $6,810. Full cost of attendance including books, transportation and personal spending is <strong>$49,693</strong>. Use that higher number if you'll need to borrow for those too.</span>
     </div>
 
     <div class="field">
@@ -329,7 +341,16 @@
         <input type="number" id="in-grants" value="34000">
         <span class="input-suffix">/ year</span>
       </div>
-      <span class="hint">Everything that says "grant" or "scholarship" — LBC aid, PA State Grant, church scholarships. You never pay this back.</span>
+      <span class="hint">Everything that says "grant" or "scholarship" — LBC aid, PA State Grant (max $6,000 for 2026-27), church scholarships. You never pay this back.</span>
+    </div>
+
+    <div class="field">
+      <label>Of that, your LBC Academic Merit Scholarship <span class="hint">— per year</span></label>
+      <div class="input-wrap dollar">
+        <input type="number" id="in-merit" value="8000">
+        <span class="input-suffix">/ year</span>
+      </div>
+      <span class="hint">Part of the number above, not extra. LBC awards $2,000–$10,000 on high school GPA (plus up to $2,500 more for test scores). It matters for year 2 — it renews only at a <strong>2.5 college GPA</strong>, and having it makes you <strong>ineligible for the Dean's Scholarship</strong>. Enter 0 if you don't have one.</span>
     </div>
 
     <div class="field">
@@ -345,8 +366,8 @@
 
 <!-- ============ STEP 2: THE LOAN KNOBS ============ -->
 <div class="section">
-  <h2>🎛️ How You'll Cover the Rest</h2>
-  <p class="desc">Turn these knobs. Every dollar here is money you borrow — and pay back with interest. Try to keep the total near what's left after grants.</p>
+  <h2>🎛️ How You'll Cover the Rest — Freshman Year</h2>
+  <p class="desc">Turn these knobs. Every dollar here is money you borrow — and pay back with interest. Set them for <strong>year one</strong>; the next section adjusts years 2–4 automatically as your aid changes.</p>
 
   <div class="card">
     <!-- Federal -->
@@ -447,6 +468,52 @@
   </div>
 </div>
 
+<!-- ============ STEP 2B: YEAR 2 AND BEYOND ============ -->
+<div class="section">
+  <h2>📈 Year 2 and Beyond</h2>
+  <p class="desc">Freshman year is <em>not</em> what the next three look like. LBC says so themselves: <em>"There are often small incentive scholarships from the Admissions Department that do not continue beyond your first year at LBC. However, there are many LBC Endowment Scholarships you can apply for in your second year and beyond that could potentially more than make up for the incentives."</em></p>
+
+  <div class="card">
+    <div class="field">
+      <label>Endowment Scholarships you win <span class="hint">— per year, starting year 2</span></label>
+      <div class="tabs" id="endow-tabs">
+        <button class="tab" onclick="setEndow(0, this)">Don't apply<br><span style="font-weight:400;opacity:0.7">$0</span></button>
+        <button class="tab active" onclick="setEndow(1000, this)">Typical<br><span style="font-weight:400;opacity:0.7">$1,000</span></button>
+        <button class="tab" onclick="setEndow(2500, this)">Strong<br><span style="font-weight:400;opacity:0.7">$2,500</span></button>
+        <button class="tab" onclick="setEndow(5000, this)">Several<br><span style="font-weight:400;opacity:0.7">$5,000</span></button>
+      </div>
+      <div class="input-wrap dollar">
+        <input type="number" id="in-endow" value="1000">
+        <span class="input-suffix">/ year</span>
+      </div>
+      <span class="hint">These are <strong>donor-funded named scholarships</strong>. You cannot get one as an incoming freshman — you apply once you're enrolled, on the "Application for LBC Scholarships," <strong>by the published deadline</strong>. Criteria and amounts vary by scholarship, and you can hold more than one. LBC awards roughly <strong>$3.4 million</strong> a year this way; their own giving page puts a typical single scholarship near <strong>$960</strong>. Winning nothing is a real outcome — so is stacking several. <strong>Missing the deadline guarantees $0.</strong></span>
+    </div>
+
+    <div class="field">
+      <label>First-year-only scholarships that go away <span class="hint">— per year</span></label>
+      <div class="input-wrap dollar">
+        <input type="number" id="in-yr1only" value="0">
+        <span class="input-suffix">/ year</span>
+      </div>
+      <span class="hint">Starts at $0 because we can't know what's in your letter. Admissions incentives that don't renew go here — for example the $1,000 award for applying by April 30. Check your letter: anything not marked renewable belongs here. Everything else (Academic Merit, Charger Grant, Christian School, Child of Alumni…) renews if you keep the GPA.</span>
+    </div>
+
+    <div class="field">
+      <label>College GPA you expect to keep</label>
+      <select id="in-gpa">
+        <option value="2.0">Under 2.3 — trouble</option>
+        <option value="2.4">2.3 to 2.49</option>
+        <option value="3.0" selected>2.5 to 3.49 — everything renews</option>
+        <option value="3.6">3.50 to 3.74</option>
+        <option value="3.9">3.75 and up</option>
+      </select>
+      <span class="hint">Most LBC scholarships renew at a <strong>2.3</strong>; the Academic Merit Scholarship needs a <strong>2.5</strong>. At 3.50+ there's a <strong>Dean's Scholarship</strong> for continuing students — $3,000/yr at 3.50–3.74, $4,000/yr at 3.75+ — but you can't hold it <em>and</em> an Academic Scholarship.</span>
+    </div>
+
+    <div class="gap-note info" id="yr2-note"></div>
+  </div>
+</div>
+
 <!-- ============ STEP 3: WHAT THIS MEANS ============ -->
 <div class="section">
   <h2>💡 What This Means at Graduation</h2>
@@ -485,8 +552,23 @@
     <div class="reassurance">
       <span id="out-reassurance"></span>
     </div>
+  </div>
 
-    <div class="field" style="margin-top:16px">
+  <div class="card">
+    <div class="loan-title" style="margin-bottom:10px"><span>Year by Year</span></div>
+    <div class="yearwrap">
+      <table class="years">
+        <thead>
+          <tr><th>Year</th><th>Cost</th><th>Aid</th><th>You pay</th><th>You borrow</th></tr>
+        </thead>
+        <tbody id="year-rows"></tbody>
+      </table>
+    </div>
+    <div class="yearnote" id="year-note"></div>
+  </div>
+
+  <div class="card">
+    <div class="field">
       <label>What subject will you teach? <span class="hint">— sets your forgiveness amount</span></label>
       <select id="in-subject">
         <option value="5000" selected>Elementary / other subject — $5,000 forgiven</option>
@@ -631,7 +713,7 @@
       <div class="action-num">2</div>
       <div class="action-body">
         <strong>Apply for the PA State Grant</strong><br>
-        Free money — up to ~$5,750/year. Complete it in the PA State Grant Form after your FAFSA.
+        Free money — up to <span class="green">$6,000/year</span> for 2026-27, the highest in program history. Get your FAFSA to PHEAA by <strong>May 1</strong>. Good for 8 semesters, so don't waste one.
         <div class="note">pheaa.org</div>
       </div>
     </div>
@@ -640,25 +722,33 @@
       <div class="action-body">
         <strong>Ask LBC about institutional scholarships</strong><br>
         Most LBC students get aid. Ask the financial aid office directly: "What else can I qualify for?"
-        <div class="note">LBC Financial Aid Office</div>
+        <div class="note">717.560.8254 · finaidtraditional@lbc.edu</div>
       </div>
     </div>
     <div class="action-item">
       <div class="action-num">4</div>
+      <div class="action-body">
+        <strong>Once you're enrolled, apply for Endowment Scholarships — every single year</strong><br>
+        <span class="green">This is the one most students miss.</span> LBC gives away roughly $3.4 million a year in endowment and donor-sponsored scholarships, and the application is only open to <strong>currently enrolled</strong> students — so the earliest it pays out is sophomore year. Criteria and amounts vary, you can win more than one, and <strong>missing the published deadline is an automatic $0</strong>. Set a calendar reminder now.
+        <div class="note">"Application for LBC Scholarships" on the student portal</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">5</div>
       <div class="action-body">
         <strong>Borrow federal before private</strong><br>
         Federal loans have lower fixed rates, income-driven repayment, and forgiveness options private loans simply don't.
       </div>
     </div>
     <div class="action-item">
-      <div class="action-num">5</div>
+      <div class="action-num">6</div>
       <div class="action-body">
-        <strong>Keep your grades up</strong><br>
-        Most scholarships require a 3.0+ GPA. It's the single biggest financial lever you control.
+        <strong>Protect your GPA — it is money</strong><br>
+        Most LBC scholarships renew at a <strong>2.3</strong>; the Academic Merit Scholarship needs a <strong>2.5</strong>. Drop below and it's gone for the rest of your degree. At <strong>3.50+</strong> the Dean's Scholarship adds $3,000–$4,000 a year — though not if you already hold an Academic Scholarship. It's the single biggest financial lever you control.
       </div>
     </div>
     <div class="action-item">
-      <div class="action-num">6</div>
+      <div class="action-num">7</div>
       <div class="action-body">
         <strong>Teacher forgiveness is real</strong><br>
         Teach 5 years at a qualifying school: <span class="green">up to $17,500 of federal loans gone.</span> Public-school teachers may also qualify for PSLF (full forgiveness after 10 years).
@@ -704,6 +794,36 @@ function balanceAfter(principal, annualRate, pmt, n) {
   return Math.max(0, bal);
 }
 
+/* ---- LBC aid rules that only apply from year 2 on -----------------------
+   Source: lbc.edu financial aid + tuition pages (2026-27).
+   • "Scholarships for Continuing Undergraduate Students" — Dean's Scholarship
+     $3,000/yr at a 3.50-3.74 cumulative GPA, $4,000/yr at 3.75+.  Students
+     receiving an Academic Scholarship are NOT eligible.
+   • Endowment Scholarships — "Criteria and amounts vary for each scholarship.
+     Application is required by published deadline date."  The application is
+     open to currently-enrolled on-campus undergrads only, so the earliest it
+     can pay out is year 2.
+   • Admissions incentive scholarships often do not continue past year 1.
+   • Academic Merit renews at a 2.5 GPA; most other LBC awards at 2.3.      */
+var DEANS_LO = 3000, DEANS_HI = 4000;
+
+function deansAward(gpa, meritYr) {
+  if (meritYr > 0) return 0;            // not stackable with an Academic Scholarship
+  if (gpa >= 3.75) return DEANS_HI;
+  if (gpa >= 3.50) return DEANS_LO;
+  return 0;
+}
+
+// Free money available in academic year k (0-based).
+function aidForYear(I, k) {
+  if (k === 0) return I.grants;
+  var a = I.grants - I.yr1Only;        // admissions incentives fall off
+  if (I.gpa < 2.5) a -= I.meritYr;     // Academic Merit fails to renew
+  a += I.endowYr;                      // endowment scholarships you applied for
+  a += deansAward(I.gpa, I.gpa < 2.5 ? 0 : I.meritYr);
+  return Math.max(0, a);
+}
+
 function computePlan(I) {
   var years = I.years;
   var stateRate = I.stateRate / 100;
@@ -712,15 +832,41 @@ function computePlan(I) {
 
   var totalSub = 0, fedUnsubP = 0, fedUnsubInt = 0;
   var stateP = 0, stateInt = 0, privP = 0, privInt = 0;
-  var fedCapped = false;
+  var fedCapped = false, fedAggHit = false, fedRunning = 0;
+  var rows = [];
+  var aid1 = aidForYear(I, 0);
 
   for (var k = 0; k < years; k++) {
     var idx = Math.min(k, 3);
     var accr = years - k - 0.5;        // yrs of in-school accrual until graduation
     if (accr < 0) accr = 0;
 
-    var fedThis = Math.min(I.fedYr, FED_LIMIT[idx]);
-    if (I.fedYr > FED_LIMIT[idx]) fedCapped = true;
+    var aidK = aidForYear(I, k);
+    var delta = aidK - aid1;           // + = more aid than freshman year
+
+    var fedThis = I.fedYr, stThis = I.stateYr, pvThis = I.privYr;
+    if (delta > 0) {
+      // More aid — borrow less, killing the most expensive debt first.
+      var cut = delta, d;
+      d = Math.min(cut, pvThis);  pvThis  -= d; cut -= d;
+      d = Math.min(cut, stThis);  stThis  -= d; cut -= d;
+      d = Math.min(cut, fedThis); fedThis -= d; cut -= d;
+    } else if (delta < 0) {
+      // Less aid — make it up federal-first (cheapest), then state.
+      var add = -delta;
+      var room = Math.max(0, FED_LIMIT[idx] - fedThis);
+      var used = Math.min(add, room);
+      fedThis += used; add -= used;
+      stThis  += add;
+    }
+
+    if (fedThis > FED_LIMIT[idx]) { fedThis = FED_LIMIT[idx]; fedCapped = true; }
+    if (fedRunning + fedThis > FED_AGG) {
+      fedThis = Math.max(0, FED_AGG - fedRunning);
+      fedAggHit = true;
+    }
+    fedRunning += fedThis;
+
     var subThis = Math.min(fedThis, SUB_CAPS[idx]);
     var unsubThis = fedThis - subThis;
 
@@ -728,8 +874,18 @@ function computePlan(I) {
     fedUnsubP   += unsubThis;
     fedUnsubInt += unsubThis * FED_RATE * accr;
 
-    stateP += I.stateYr;  stateInt += I.stateYr * stateRate * accr;
-    privP  += I.privYr;   privInt  += I.privYr  * privRate  * accr;
+    stateP += stThis;  stateInt += stThis * stateRate * accr;
+    privP  += pvThis;  privInt  += pvThis * privRate  * accr;
+
+    rows.push({
+      year: k + 1,
+      cost: I.cost,
+      aid: aidK,
+      cash: I.cash,
+      need: Math.max(0, I.cost - aidK - I.cash),
+      fed: fedThis, state: stThis, priv: pvThis,
+      borrow: fedThis + stThis + pvThis
+    });
   }
 
   var fedP  = totalSub + fedUnsubP;
@@ -764,10 +920,17 @@ function computePlan(I) {
     totalAfter = Math.max(0, totalG - fedForgiven);
   }
 
-  // Gap: average annual borrowing vs what's left after grants + cash
+  // Gap for FRESHMAN year — that's what the loan knobs above are set to.
   var avgBorrow = years > 0 ? totalP / years : 0;
-  var needPerYear = Math.max(0, I.cost - I.grants - I.cash);
-  var gapYr = needPerYear - avgBorrow;   // +over-borrowing, -shortfall
+  var needPerYear = rows.length ? rows[0].need : 0;
+  var gapYr = needPerYear - (rows.length ? rows[0].borrow : 0);  // + short, - over
+
+  // Aid movement between freshman year and everything after.
+  var aid2 = years > 1 ? aidForYear(I, 1) : aid1;
+  var aidSwing = aid2 - aid1;
+  var deans = deansAward(I.gpa, I.gpa < 2.5 ? 0 : I.meritYr);
+  var meritLost = (I.gpa < 2.5) ? I.meritYr : 0;
+  var deansBlocked = (I.meritYr > 0 && I.gpa >= 3.50);
 
   // Blended rate (for payoff simulation)
   var blended = totalG > 0
@@ -782,7 +945,9 @@ function computePlan(I) {
     monthly: monthly, lifePaid: lifePaid, lifeInterest: lifeInterest,
     fedForgiven: fedForgiven, monthlyAfter: monthlyAfter, totalAfter: totalAfter,
     gapYr: gapYr, needPerYear: needPerYear, avgBorrow: avgBorrow,
-    fedCapped: fedCapped, blended: blended
+    fedCapped: fedCapped, fedAggHit: fedAggHit, blended: blended,
+    rows: rows, aid1: aid1, aid2: aid2, aidSwing: aidSwing,
+    deans: deans, deansBlocked: deansBlocked, meritLost: meritLost
   };
 }
 
@@ -807,7 +972,7 @@ function simulatePayoff(startBalance, blendedRate, minMonthly, extraMonthly) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { computePlan: computePlan, amortize: amortize, simulatePayoff: simulatePayoff, balanceAfter: balanceAfter };
+  module.exports = { computePlan: computePlan, amortize: amortize, simulatePayoff: simulatePayoff, balanceAfter: balanceAfter, aidForYear: aidForYear, deansAward: deansAward };
 }
 
 /* ============================================================
@@ -815,10 +980,13 @@ if (typeof module !== 'undefined' && module.exports) {
    ============================================================ */
 if (typeof document !== 'undefined') {
 
+  /* cost = LBC's published 2026-27 direct billed cost.
+     "avg" grants back into the federal College Scorecard average net price
+     for LBC ($25,480), so it shows what a middle-of-the-road family faces. */
   var PRESETS = {
-    typical: { cost: 43511, grants: 34000, cash: 2500, fed: 5500, state: 0, priv: 0 },
-    best:    { cost: 43511, grants: 38000, cash: 2500, fed: 3500, state: 0, priv: 0 },
-    blank:   { cost: 43511, grants: 0,     cash: 0,    fed: 0,    state: 0, priv: 0 }
+    typical: { cost: 45650, grants: 34000, merit: 8000, cash: 2500, fed: 5500, state: 3650, priv: 0 },
+    avg:     { cost: 45650, grants: 20170, merit: 5000, cash: 2500, fed: 5500, state: 0, priv: 0 },
+    blank:   { cost: 45650, grants: 0,     merit: 0,    cash: 0,    fed: 0,    state: 0, priv: 0 }
   };
 
   var currentSalary = 49083;
@@ -836,11 +1004,18 @@ if (typeof document !== 'undefined') {
     var p = PRESETS[name];
     $('in-cost').value = p.cost;
     $('in-grants').value = p.grants;
+    $('in-merit').value = p.merit;
     $('in-cash').value = p.cash;
     $('in-fed').value = p.fed;
     $('in-state').value = p.state;
     $('in-priv').value = p.priv;
     setActive($('preset-tabs'), btn);
+    recalc();
+  };
+
+  window.setEndow = function (val, btn) {
+    $('in-endow').value = val;
+    setActive($('endow-tabs'), btn);
     recalc();
   };
 
@@ -863,6 +1038,10 @@ if (typeof document !== 'undefined') {
       cost: num('in-cost'),
       grants: num('in-grants'),
       cash: num('in-cash'),
+      meritYr: num('in-merit'),
+      endowYr: num('in-endow'),
+      yr1Only: num('in-yr1only'),
+      gpa: parseFloat($('in-gpa').value) || 3.0,
       fedYr: num('in-fed'),
       stateYr: num('in-state'),
       privYr: num('in-priv'),
@@ -921,9 +1100,67 @@ if (typeof document !== 'undefined') {
       $('breakdown-wrap').style.display = 'none';
     }
 
+    // ---- Year-by-year table ----
+    var tb = $('year-rows');
+    tb.innerHTML = '';
+    var sumCost = 0, sumAid = 0, sumCash = 0, sumBorrow = 0;
+    R.rows.forEach(function (r) {
+      var paid = Math.min(r.cash, Math.max(0, r.cost - r.aid));
+      sumCost += r.cost; sumAid += r.aid; sumCash += paid; sumBorrow += r.borrow;
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>Year ' + r.year + '</td><td>' + fmt(r.cost) + '</td><td>' + fmt(r.aid) +
+                     '</td><td>' + fmt(paid) + '</td><td class="borrow">' + fmt(r.borrow) + '</td>';
+      tb.appendChild(tr);
+    });
+    var trt = document.createElement('tr');
+    trt.className = 'total';
+    trt.innerHTML = '<td>Total</td><td>' + fmt(sumCost) + '</td><td>' + fmt(sumAid) +
+                    '</td><td>' + fmt(sumCash) + '</td><td class="borrow">' + fmt(sumBorrow) + '</td>';
+    tb.appendChild(trt);
+
+    var yrNoteParts = [];
+    if (R.rows.length > 1) {
+      var y1 = R.rows[0].borrow, y2 = R.rows[1].borrow;
+      if (y2 < y1 - 50) {
+        yrNoteParts.push('Because your aid goes <strong>up</strong> after freshman year, your borrowing drops from ' + fmt(y1) + ' to ' + fmt(y2) + ' a year.');
+      } else if (y2 > y1 + 50) {
+        yrNoteParts.push('Because your aid goes <strong>down</strong> after freshman year, your borrowing rises from ' + fmt(y1) + ' to ' + fmt(y2) + ' a year.');
+      } else {
+        yrNoteParts.push('Your aid holds roughly steady, so you borrow about the same every year.');
+      }
+    }
+    yrNoteParts.push('"You pay" is capped at what\'s actually left after aid. Federal loans are capped at the legal limit for a dependent undergrad — $5,500 freshman year, $6,500 sophomore, $7,500 after that, $31,000 lifetime.');
+    yrNoteParts.push('For scale: the median LBC graduate leaves with about <strong>$20,500</strong> in federal student debt, and LBC\'s student loan default rate is <strong>0%</strong>.');
+    $('year-note').innerHTML = yrNoteParts.join(' ');
+
+    // ---- Year 2 explainer ----
+    var y2parts = [];
+    if (R.aidSwing > 50) {
+      y2parts.push('📈 From year 2 on you\'d have <strong>' + fmt(R.aidSwing) + '/year more</strong> in free money than freshman year.');
+    } else if (R.aidSwing < -50) {
+      y2parts.push('📉 From year 2 on you\'d have <strong>' + fmt(-R.aidSwing) + '/year less</strong> in free money than freshman year — you\'d have to borrow the difference.');
+    } else {
+      y2parts.push('➡️ Year 2 lands within a few dollars of freshman year.');
+    }
+    if (R.meritLost > 0) {
+      y2parts.push('⚠️ At that GPA your <strong>' + fmt(R.meritLost) + ' Academic Merit Scholarship does not renew</strong> — it needs a 2.5. Other LBC awards need a 2.3. This is the single most expensive thing on this page, and it\'s entirely in your control.');
+    }
+    if (R.deans > 0) {
+      y2parts.push('🎓 Your GPA earns the <strong>Dean\'s Scholarship, ' + fmt(R.deans) + '/year</strong>, from year 2.');
+    } else if (R.deansBlocked) {
+      y2parts.push('ℹ️ Your GPA would qualify for the Dean\'s Scholarship, but you can\'t hold it alongside an Academic Scholarship — you keep the bigger Academic Merit award instead.');
+    }
+    if (num('in-endow') === 0) {
+      y2parts.push('💡 You have Endowment Scholarships set to $0. Applying is free and takes an afternoon. LBC gives away roughly $3.4M a year this way.');
+    }
+    $('yr2-note').innerHTML = y2parts.join(' ');
+
     // ---- Federal cap warning ----
     var capNote = $('fed-cap-note');
-    if (R.fedCapped) {
+    if (R.fedAggHit) {
+      capNote.className = 'loan-note warn-cap';
+      capNote.textContent = '⚠️ You\'ve hit the $31,000 lifetime federal cap for a dependent undergrad. Anything past that has to come from somewhere more expensive.';
+    } else if (R.fedCapped) {
       capNote.className = 'loan-note warn-cap';
       capNote.textContent = '⚠️ That’s above the federal limit for a dependent student (max $5,500 in year 1, rising to $7,500). Only the allowed amount is counted here — cover the rest another way.';
     } else {
@@ -935,13 +1172,13 @@ if (typeof document !== 'undefined') {
     var gapEl = $('gap-note');
     if (R.gapYr > 100) {
       gapEl.className = 'gap-note over';
-      gapEl.innerHTML = '⚠️ You’re about <strong>' + fmt(R.gapYr) + '/year short</strong> of covering the cost. Turn up a loan knob, or ask LBC about a payment plan or more scholarships.';
+      gapEl.innerHTML = '⚠️ Freshman year you’re about <strong>' + fmt(R.gapYr) + ' short</strong> of covering the cost. Turn up a loan knob, or ask LBC about a payment plan or more scholarships.';
     } else if (R.gapYr < -100) {
       gapEl.className = 'gap-note under';
-      gapEl.innerHTML = '✅ You’re borrowing about <strong>' + fmt(-R.gapYr) + '/year more</strong> than you need. Consider dialing a loan back — less borrowed is less to repay.';
+      gapEl.innerHTML = '✅ Freshman year you’re borrowing about <strong>' + fmt(-R.gapYr) + ' more</strong> than you need. Consider dialing a loan back — less borrowed is less to repay.';
     } else {
       gapEl.className = 'gap-note under';
-      gapEl.textContent = '✅ Nicely balanced — your aid and loans cover the cost with nothing left over.';
+      gapEl.textContent = '✅ Nicely balanced — freshman year your aid and loans cover the cost with nothing left over.';
     }
 
     // ---- Reassurance ----
@@ -1045,6 +1282,16 @@ if (typeof document !== 'undefined') {
     }
   }
   window.recalc = recalc;
+
+  // Keep the endowment quick-pick tabs in sync when the field is typed into.
+  $('in-endow').addEventListener('input', function () {
+    var v = num('in-endow'), match = null;
+    $('endow-tabs').querySelectorAll('.tab').forEach(function (t) {
+      var m = /setEndow\((\d+)/.exec(t.getAttribute('onclick') || '');
+      if (m && parseFloat(m[1]) === v) match = t;
+    });
+    setActive($('endow-tabs'), match);
+  });
 
   // Wire every input + select
   document.querySelectorAll('input[type="number"], select').forEach(function (el) {
