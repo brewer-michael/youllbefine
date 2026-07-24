@@ -192,6 +192,13 @@
     </div>
     <div>
       <div class="control-group">
+        <label>LBC Institutional Aid (scholarships/grants from the school)</label>
+        <div class="control-row">
+          <input type="range" id="ctrl-instaid" min="0" max="25000" step="500" value="12000">
+          <span class="value-display" id="val-instaid">$12,000/yr</span>
+        </div>
+      </div>
+      <div class="control-group">
         <label>Endowment/Scholarship Help (starts Year 2)</label>
         <div class="control-row">
           <input type="range" id="ctrl-endow" min="0" max="15000" step="500" value="8000">
@@ -275,6 +282,7 @@
         <th>Tuition + Fees</th>
         <th>Room & Board</th>
         <th>PA State Grant</th>
+        <th>LBC Aid</th>
         <th>Endowment</th>
         <th>Job Income</th>
         <th>Federal Loans</th>
@@ -289,6 +297,7 @@
         <td class="num" id="tot-tuition">$119,960</td>
         <td class="num" id="tot-room">$48,884</td>
         <td class="num green" id="tot-grant">$16,000</td>
+        <td class="num green" id="tot-instaid">$48,000</td>
         <td class="num green" id="tot-endow">$24,000</td>
         <td class="num green" id="tot-job">$8,000</td>
         <td class="num red" id="tot-fed">$19,000</td>
@@ -375,6 +384,11 @@
   <div class="callout green">
     <strong>Knob 1-4: Federal Loan Amounts</strong><br>
     Federal Direct Loans have annual caps. For a dependent student: $5,500 (Yr 1), $6,500 (Yr 2), $7,500 (Yr 3 & 4). Max total: $31,000. Subsidized portion (where the government pays interest while in school) is capped at $3,500/$4,500/$5,500/$5,500. <strong>Always take subsidized first.</strong>
+  </div>
+
+  <div class="callout green">
+    <strong>Knob: LBC Institutional Aid</strong><br>
+    Lancaster Bible College's average financial aid package is about <strong>$21,040</strong> (College Board data), with 73% of students receiving aid. This includes school-funded scholarships, grants, and merit awards. It does NOT include federal loans or external grants like PHEAA. Year 1 may be lower since some endowments require a proven GPA. She should ask LBC's financial aid office directly about what she qualifies for.
   </div>
 
   <div class="callout">
@@ -595,9 +609,9 @@ const START_SALARY = 50001;
 
 // Scenario presets
 const scenarios = {
-  best: { y1: 3500, y2: 0, y3: 2500, y4: 2500, endow: 12000, pagrant: 4500, job: 3000, paoption: 'none' },
-  likely: { y1: 5500, y2: 3500, y3: 5000, y4: 5000, endow: 8000, pagrant: 4000, job: 2000, paoption: 'partial' },
-  worst: { y1: 5500, y2: 6500, y3: 7500, y4: 7500, endow: 4000, pagrant: 3000, job: 0, paoption: 'full' }
+  best: { y1: 3500, y2: 0, y3: 2500, y4: 2500, instaid: 18000, endow: 12000, pagrant: 4500, job: 3000, paoption: 'none' },
+  likely: { y1: 5500, y2: 3500, y3: 5000, y4: 5000, instaid: 12000, endow: 8000, pagrant: 4000, job: 2000, paoption: 'partial' },
+  worst: { y1: 5500, y2: 6500, y3: 7500, y4: 7500, instaid: 6000, endow: 4000, pagrant: 3000, job: 0, paoption: 'full' }
 };
 
 let currentScenario = 'best';
@@ -609,6 +623,7 @@ function setScenario(s) {
   document.getElementById('ctrl-y2').value = p.y2;
   document.getElementById('ctrl-y3').value = p.y3;
   document.getElementById('ctrl-y4').value = p.y4;
+  document.getElementById('ctrl-instaid').value = p.instaid;
   document.getElementById('ctrl-endow').value = p.endow;
   document.getElementById('ctrl-pagrant').value = p.pagrant;
   document.getElementById('ctrl-job').value = p.job;
@@ -628,6 +643,7 @@ function recalc() {
   const endow = +document.getElementById('ctrl-endow').value;
   const pagrant = +document.getElementById('ctrl-pagrant').value;
   const job = +document.getElementById('ctrl-job').value;
+  const instaid = +document.getElementById('ctrl-instaid').value;
   const paoption = document.getElementById('ctrl-paoption').value;
 
   // Update displays
@@ -635,6 +651,7 @@ function recalc() {
   document.getElementById('val-y2').textContent = fmt(y2);
   document.getElementById('val-y3').textContent = fmt(y3);
   document.getElementById('val-y4').textContent = fmt(y4);
+  document.getElementById('val-instaid').textContent = fmt(instaid) + '/yr';
   document.getElementById('val-endow').textContent = fmt(endow) + '/yr';
   document.getElementById('val-pagrant').textContent = fmt(pagrant) + '/yr';
   document.getElementById('val-job').textContent = fmt(job) + '/yr';
@@ -648,7 +665,7 @@ function recalc() {
 
   for (let yr = 0; yr < 4; yr++) {
     const totalCost = TUITION + ROOM_BOARD;
-    const grants = pagrant + endowArr[yr] + job;
+    const grants = instaid + pagrant + endowArr[yr] + job;
     const fed = fedLoans[yr];
     const gap = Math.max(0, totalCost - grants - fed);
     const priv = paoption === 'none' ? 0 : gap;
@@ -679,7 +696,7 @@ function recalc() {
     }
 
     totalInterest += fedInterest + privInterest;
-    yearlyData.push({ yr: yr + 1, fed, priv, fedInterest, privInterest, grants, endow: endowArr[yr], pagrant, job });
+    yearlyData.push({ yr: yr + 1, fed, priv, fedInterest, privInterest, grants, instaid, endow: endowArr[yr], pagrant, job });
   }
 
   const totalBorrowed = totalFed + totalPriv;
@@ -721,6 +738,7 @@ function recalc() {
       <td class="num">$29,990</td>
       <td class="num">$12,221</td>
       <td class="num green">${fmt(d.pagrant)}</td>
+      <td class="num green">${fmt(d.instaid)}</td>
       <td class="num green">${fmt(d.endow)}</td>
       <td class="num green">${fmt(d.job)}</td>
       <td class="num">${fmt(d.fed)}</td>
@@ -732,6 +750,7 @@ function recalc() {
 
   // Totals
   document.getElementById('tot-grant').textContent = fmt(pagrant * 4);
+  document.getElementById('tot-instaid').textContent = fmt(instaid * 4);
   document.getElementById('tot-endow').textContent = fmt(endowArr.reduce((a,b) => a+b, 0));
   document.getElementById('tot-job').textContent = fmt(job * 4);
   document.getElementById('tot-fed').textContent = fmt(totalFed);
