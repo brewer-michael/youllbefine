@@ -297,6 +297,36 @@
   table.years tr.total td { border-bottom: none; border-top: 2px solid #ece8e2; font-weight: 800; color: #4a3f6b; }
   .yearnote { font-size: 0.76em; color: #999; margin-top: 8px; line-height: 1.5; }
 
+  /* Itemized award-letter lines that sum into one total */
+  .aid-line {
+    display: grid;
+    grid-template-columns: 1fr 128px;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f4f1ec;
+  }
+  .aid-label { font-size: 0.86em; font-weight: 600; color: #4a3f6b; line-height: 1.35; }
+  .aid-sub { display: block; font-size: 0.82em; font-weight: 400; color: #aaa; margin-top: 2px; }
+  .aid-line .input-wrap { margin: 0; }
+  .aid-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: #e8f5e9;
+    border: 2px solid #c8e6c9;
+    border-radius: 12px;
+    font-size: 0.88em;
+    font-weight: 700;
+    color: #2e7d32;
+  }
+  .aid-total strong { font-size: 1.5em; font-weight: 800; letter-spacing: -0.5px; }
+  @media (max-width: 380px) {
+    .aid-line { grid-template-columns: 1fr 108px; gap: 8px; }
+  }
+
   .footer {
     text-align: center;
     padding: 24px 20px 40px;
@@ -336,21 +366,44 @@
     </div>
 
     <div class="field">
-      <label>Grants &amp; Scholarships <span class="hint">— free money, per year</span></label>
-      <div class="input-wrap dollar">
-        <input type="number" id="in-grants" value="34000">
-        <span class="input-suffix">/ year</span>
-      </div>
-      <span class="hint">Everything that says "grant" or "scholarship" — LBC aid, PA State Grant (max $6,000 for 2026-27), church scholarships. You never pay this back.</span>
-    </div>
+      <label>Grants &amp; Scholarships <span class="hint">— free money you never pay back</span></label>
+      <p class="hint" style="margin:-2px 0 10px">Copy each line straight off your award letter. They add up to your total below.</p>
 
-    <div class="field">
-      <label>Of that, your LBC Academic Merit Scholarship <span class="hint">— per year</span></label>
-      <div class="input-wrap dollar">
-        <input type="number" id="in-merit" value="8000">
-        <span class="input-suffix">/ year</span>
+      <div class="aid-line">
+        <div class="aid-label">LBC Academic Merit Scholarship
+          <span class="aid-sub">$2,000–$10,000 on your high school GPA, plus up to $2,500 for test scores</span></div>
+        <div class="input-wrap dollar"><input type="number" id="in-merit" value="8000"></div>
       </div>
-      <span class="hint">Part of the number above, not extra. LBC awards $2,000–$10,000 on high school GPA (plus up to $2,500 more for test scores). It matters for year 2 — it renews only at a <strong>2.5 college GPA</strong>, and having it makes you <strong>ineligible for the Dean's Scholarship</strong>. Enter 0 if you don't have one.</span>
+
+      <div class="aid-line">
+        <div class="aid-label">Other LBC scholarships &amp; grants
+          <span class="aid-sub">Charger Grant, Christian School, Child of Alumni, Sibling, Leadership…</span></div>
+        <div class="input-wrap dollar"><input type="number" id="in-lbcother" value="18500"></div>
+      </div>
+
+      <div class="aid-line">
+        <div class="aid-label">PA State Grant
+          <span class="aid-sub">Up to $6,000 for 2026-27. FAFSA to PHEAA by May 1</span></div>
+        <div class="input-wrap dollar"><input type="number" id="in-stategrant" value="5000"></div>
+      </div>
+
+      <div class="aid-line">
+        <div class="aid-label">Federal Pell Grant
+          <span class="aid-sub">Need-based, straight from your FAFSA. $0 if you don't qualify</span></div>
+        <div class="input-wrap dollar"><input type="number" id="in-pell" value="0"></div>
+      </div>
+
+      <div class="aid-line">
+        <div class="aid-label">Church &amp; outside scholarships
+          <span class="aid-sub">Your church, employer, local clubs. LBC matches church gifts up to $500/semester</span></div>
+        <div class="input-wrap dollar"><input type="number" id="in-outside" value="2500"></div>
+      </div>
+
+      <div class="aid-total">
+        <span>Total free money</span>
+        <strong id="out-grants-total">$0</strong>
+      </div>
+      <span class="hint" id="merit-note"></span>
     </div>
 
     <div class="field">
@@ -367,7 +420,7 @@
 <!-- ============ STEP 2: THE LOAN KNOBS ============ -->
 <div class="section">
   <h2>🎛️ How You'll Cover the Rest — Freshman Year</h2>
-  <p class="desc">Turn these knobs. Every dollar here is money you borrow — and pay back with interest. Set them for <strong>year one</strong>; the next section adjusts years 2–4 automatically as your aid changes.</p>
+  <p class="desc">These fill in automatically to cover exactly what your aid doesn't — cheapest money first. Change any number above and they move. Type over them if you want to try something different. This is <strong>year one</strong>; the next section handles years 2–4.</p>
 
   <div class="card">
     <!-- Federal -->
@@ -814,10 +867,18 @@ function deansAward(gpa, meritYr) {
   return 0;
 }
 
+/* Total free money is the SUM of the award-letter line items, so the merit
+   award is structurally part of the total — change it and the total moves. */
+function totalGrants(I) {
+  return Math.max(0, I.meritYr) + Math.max(0, I.lbcOther) +
+         Math.max(0, I.stateGrant) + Math.max(0, I.pell) + Math.max(0, I.outside);
+}
+
 // Free money available in academic year k (0-based).
 function aidForYear(I, k) {
-  if (k === 0) return I.grants;
-  var a = I.grants - I.yr1Only;        // admissions incentives fall off
+  var grants = totalGrants(I);
+  if (k === 0) return grants;
+  var a = grants - I.yr1Only;          // admissions incentives fall off
   if (I.gpa < 2.5) a -= I.meritYr;     // Academic Merit fails to renew
   a += I.endowYr;                      // endowment scholarships you applied for
   a += deansAward(I.gpa, I.gpa < 2.5 ? 0 : I.meritYr);
@@ -946,6 +1007,7 @@ function computePlan(I) {
     fedForgiven: fedForgiven, monthlyAfter: monthlyAfter, totalAfter: totalAfter,
     gapYr: gapYr, needPerYear: needPerYear, avgBorrow: avgBorrow,
     fedCapped: fedCapped, fedAggHit: fedAggHit, blended: blended,
+    grants: totalGrants(I), meritYr: I.meritYr,
     rows: rows, aid1: aid1, aid2: aid2, aidSwing: aidSwing,
     deans: deans, deansBlocked: deansBlocked, meritLost: meritLost
   };
@@ -972,7 +1034,7 @@ function simulatePayoff(startBalance, blendedRate, minMonthly, extraMonthly) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { computePlan: computePlan, amortize: amortize, simulatePayoff: simulatePayoff, balanceAfter: balanceAfter, aidForYear: aidForYear, deansAward: deansAward };
+  module.exports = { computePlan: computePlan, amortize: amortize, simulatePayoff: simulatePayoff, balanceAfter: balanceAfter, aidForYear: aidForYear, deansAward: deansAward, totalGrants: totalGrants };
 }
 
 /* ============================================================
@@ -983,10 +1045,11 @@ if (typeof document !== 'undefined') {
   /* cost = LBC's published 2026-27 direct billed cost.
      "avg" grants back into the federal College Scorecard average net price
      for LBC ($25,480), so it shows what a middle-of-the-road family faces. */
+  /* Loans aren't in the presets — they're derived from what the aid doesn't cover. */
   var PRESETS = {
-    typical: { cost: 45650, grants: 34000, merit: 8000, cash: 2500, fed: 5500, state: 3650, priv: 0 },
-    avg:     { cost: 45650, grants: 20170, merit: 5000, cash: 2500, fed: 5500, state: 0, priv: 0 },
-    blank:   { cost: 45650, grants: 0,     merit: 0,    cash: 0,    fed: 0,    state: 0, priv: 0 }
+    typical: { cost: 45650, merit: 8000, lbcother: 18500, stategrant: 5000, pell: 0,    outside: 2500, cash: 2500 },
+    avg:     { cost: 45650, merit: 5000, lbcother:  6000, stategrant: 3500, pell: 4670, outside: 1000, cash: 2500 },
+    blank:   { cost: 45650, merit: 0,    lbcother:     0, stategrant: 0,    pell: 0,    outside: 0,    cash: 0 }
   };
 
   var currentSalary = 49083;
@@ -1003,15 +1066,34 @@ if (typeof document !== 'undefined') {
   window.loadPreset = function (name, btn) {
     var p = PRESETS[name];
     $('in-cost').value = p.cost;
-    $('in-grants').value = p.grants;
     $('in-merit').value = p.merit;
+    $('in-lbcother').value = p.lbcother;
+    $('in-stategrant').value = p.stategrant;
+    $('in-pell').value = p.pell;
+    $('in-outside').value = p.outside;
     $('in-cash').value = p.cash;
-    $('in-fed').value = p.fed;
-    $('in-state').value = p.state;
-    $('in-priv').value = p.priv;
+    loansTouched = false;              // a fresh preset re-derives the loans
+    autofillLoans();
     setActive($('preset-tabs'), btn);
     recalc();
   };
+
+  /* Loans fill whatever the award letter doesn't cover: federal first (best
+     terms, capped at the freshman limit), then state. She can still type over
+     any of them — editing a loan field stops the autofill from touching it. */
+  var loansTouched = false;
+  function autofillLoans() {
+    if (loansTouched) return;
+    var need = Math.max(0, num('in-cost') - grantsTotal() - num('in-cash'));
+    var fed = Math.min(need, FED_LIMIT[0]);
+    $('in-fed').value = Math.round(fed);
+    $('in-state').value = Math.round(Math.max(0, need - fed));
+    $('in-priv').value = 0;
+  }
+  function grantsTotal() {
+    return num('in-merit') + num('in-lbcother') + num('in-stategrant') +
+           num('in-pell') + num('in-outside');
+  }
 
   window.setEndow = function (val, btn) {
     $('in-endow').value = val;
@@ -1036,9 +1118,12 @@ if (typeof document !== 'undefined') {
   function recalc() {
     var I = {
       cost: num('in-cost'),
-      grants: num('in-grants'),
       cash: num('in-cash'),
       meritYr: num('in-merit'),
+      lbcOther: num('in-lbcother'),
+      stateGrant: num('in-stategrant'),
+      pell: num('in-pell'),
+      outside: num('in-outside'),
       endowYr: num('in-endow'),
       yr1Only: num('in-yr1only'),
       gpa: parseFloat($('in-gpa').value) || 3.0,
@@ -1052,6 +1137,18 @@ if (typeof document !== 'undefined') {
       forgiveAmt: parseInt($('in-subject').value, 10) || 0
     };
     var R = computePlan(I);
+
+    // ---- Award-letter total (sum of the lines above it) ----
+    $('out-grants-total').textContent = fmt(R.grants) + ' / year';
+    var leftToCover = Math.max(0, I.cost - R.grants);
+    var mParts = ['That covers <strong>' + Math.round(R.grants / Math.max(1, I.cost) * 100) +
+                  '%</strong> of the ' + fmt(I.cost) + ' cost, leaving ' + fmt(leftToCover) + ' a year.'];
+    if (R.meritYr > 0) {
+      mParts.push(R.meritYr >= R.grants
+        ? 'Your Academic Merit Scholarship is all of it.'
+        : 'Of that, <strong>' + fmt(R.meritYr) + '</strong> is your Academic Merit Scholarship — it renews only at a <strong>2.5 college GPA</strong>, and holding it makes you ineligible for the Dean\'s Scholarship.');
+    }
+    $('merit-note').innerHTML = mParts.join(' ');
 
     // ---- STEP 3 headline ----
     var debtEl = $('out-debt');
@@ -1293,8 +1390,21 @@ if (typeof document !== 'undefined') {
     setActive($('endow-tabs'), match);
   });
 
-  // Wire every input + select
+  // Changing what it costs or what she's been given re-derives the loans.
+  var AID_FIELDS  = ['in-cost', 'in-merit', 'in-lbcother', 'in-stategrant', 'in-pell', 'in-outside', 'in-cash'];
+  var LOAN_FIELDS = ['in-fed', 'in-state', 'in-priv'];
+
+  AID_FIELDS.forEach(function (id) {
+    $(id).addEventListener('input', function () { autofillLoans(); recalc(); });
+  });
+  // Typing in a loan field means she's taken the wheel — stop autofilling.
+  LOAN_FIELDS.forEach(function (id) {
+    $(id).addEventListener('input', function () { loansTouched = true; recalc(); });
+  });
+
+  // Everything else just recalculates.
   document.querySelectorAll('input[type="number"], select').forEach(function (el) {
+    if (AID_FIELDS.indexOf(el.id) !== -1 || LOAN_FIELDS.indexOf(el.id) !== -1) return;
     el.addEventListener('input', recalc);
     el.addEventListener('change', recalc);
   });
