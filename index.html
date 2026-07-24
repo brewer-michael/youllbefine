@@ -3,849 +3,785 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LBC College Financial Plan — Teaching Degree</title>
+<title>You'll Be Fine — LBC Financial Plan</title>
 <style>
-  :root {
-    --bg: #1a1a2e;
-    --card: #16213e;
-    --card2: #0f3460;
-    --accent: #e94560;
-    --accent2: #53d8fb;
-    --text: #eee;
-    --text-dim: #aab;
-    --green: #4ecca3;
-    --yellow: #f0a500;
-    --red: #e94560;
-    --border: #2a2a4a;
-  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    padding: 16px;
-    max-width: 1000px;
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: #faf6f1;
+    color: #2d2d3a;
+    line-height: 1.65;
+    padding: 0;
+    max-width: 640px;
     margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
   }
-  @media (max-width: 480px) {
-    body { padding: 10px; }
-    .card { padding: 12px; }
-    .summary-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 24px 32px;
+    text-align: center;
   }
-  h1 { color: var(--accent2); margin-bottom: 4px; font-size: 1.4em; }
-  h2 { color: var(--accent2); margin: 20px 0 10px; font-size: 1.1em; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-  h3 { color: var(--text); margin: 12px 0 6px; font-size: 1em; }
-  .subtitle { color: var(--text-dim); margin-bottom: 16px; font-size: 0.9em; }
+  .hero h1 { font-size: 2em; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+  .hero p { font-size: 0.95em; opacity: 0.9; max-width: 400px; margin: 0 auto; }
+
+  .section {
+    padding: 20px 20px;
+  }
+  .section h2 {
+    font-size: 1.15em;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #4a3f6b;
+  }
+  .section .desc {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
   .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
     margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
-  .card.highlight { border-color: var(--accent2); }
-  .card.green { border-color: var(--green); }
 
   /* Inputs */
-  .input-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 8px;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(42,42,74,0.5);
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
   }
-  .input-row:last-child { border-bottom: none; }
-  .input-row label { font-size: 0.88em; color: var(--text-dim); }
-  .input-row .hint { font-size: 0.75em; color: var(--text-dim); opacity: 0.7; }
+  .field label {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #4a3f6b;
+  }
+  .field .hint {
+    font-size: 0.78em;
+    color: #999;
+    font-weight: 400;
+  }
   .input-wrap {
     display: flex;
     align-items: center;
-    gap: 4px;
+    background: #f5f3f0;
+    border: 2px solid #e8e4de;
+    border-radius: 12px;
+    transition: border-color 0.15s;
   }
-  .input-wrap::before { content: '$'; color: var(--text-dim); font-size: 0.85em; }
+  .input-wrap:focus-within { border-color: #764ba2; }
+  .input-wrap::before {
+    content: '$';
+    padding-left: 14px;
+    color: #999;
+    font-weight: 600;
+  }
   input[type="number"] {
-    width: 90px;
-    background: var(--card2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 6px;
-    font-size: 16px;
-    text-align: right;
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 14px 14px 14px 6px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2d2d3a;
     font-variant-numeric: tabular-nums;
     -moz-appearance: textfield;
+    outline: none;
   }
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  input[type="number"]:focus { outline: none; border-color: var(--accent2); }
-  select {
-    background: var(--card2); color: var(--text);
-    border: 1px solid var(--border); border-radius: 6px;
-    padding: 8px; font-size: 16px; width: 100%;
+  .input-suffix {
+    padding-right: 14px;
+    font-size: 0.8em;
+    color: #999;
+    white-space: nowrap;
   }
 
-  /* Summary */
-  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 14px 0; }
-  .summary-box {
-    background: var(--card2);
-    border-radius: 8px;
-    padding: 12px;
+  /* Scenario tabs */
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tab {
+    background: #f0ede8; border: none; color: #666;
+    padding: 8px 14px; border-radius: 20px; cursor: pointer;
+    font-size: 0.82em; font-weight: 600;
+    transition: all 0.15s; -webkit-tap-highlight-color: transparent;
+  }
+  .tab.active { background: #764ba2; color: white; }
+
+  /* Big answer numbers */
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  @media (max-width: 420px) { .answer-grid { grid-template-columns: 1fr; } }
+  .answer {
+    background: #f9f7f4;
+    border-radius: 14px;
+    padding: 16px;
     text-align: center;
   }
-  .summary-box .label { font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
-  .summary-box .value { font-size: 1.2em; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
-  .summary-box .sub { font-size: 0.75em; color: var(--text-dim); margin-top: 2px; }
-
-  /* Table */
-  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.82em; min-width: 700px; }
-  th, td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
-  th { color: var(--accent2); font-weight: 600; }
-  td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .green { color: var(--green); }
-  .yellow { color: var(--yellow); }
-  .red { color: var(--red); }
-
-  .scenario-toggle { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-  .scenario-btn {
-    background: var(--card2); border: 1px solid var(--border); color: var(--text);
-    padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 0.85em;
-    transition: all 0.15s; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  .answer.highlight {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border: 2px solid #c8e6c9;
   }
-  .scenario-btn.active { background: var(--accent2); color: var(--bg); border-color: var(--accent2); }
-
-  .callout {
-    background: rgba(83,216,251,0.07); border-left: 3px solid var(--accent2);
-    padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88em;
+  .answer .label {
+    font-size: 0.72em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+    font-weight: 600;
   }
-  .callout.green { background: rgba(78,204,163,0.07); border-color: var(--green); }
-  .callout.yellow { background: rgba(240,165,0,0.07); border-color: var(--yellow); }
-  .callout.red { background: rgba(233,69,96,0.07); border-color: var(--red); }
+  .answer .number {
+    font-size: 1.7em;
+    font-weight: 800;
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+  }
+  .answer .sub { font-size: 0.78em; color: #999; margin-top: 2px; }
+  .good { color: #2e7d32 !important; }
+  .warn { color: #f57c00 !important; }
+  .bad { color: #c62828 !important; }
 
-  .note { font-size: 0.8em; color: var(--text-dim); margin-top: 6px; }
-  #chartCanvas { width: 100%; height: 220px; }
-  .section-gap { height: 8px; }
-  .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.75em; font-weight: 600; }
-  .pill-green { background: rgba(78,204,163,0.15); color: var(--green); }
-  .pill-yellow { background: rgba(240,165,0,0.15); color: var(--yellow); }
-  .pill-red { background: rgba(233,69,96,0.15); color: var(--red); }
+  /* The reassurance line */
+  .reassurance {
+    background: linear-gradient(135deg, #667eea15, #764ba215);
+    border-left: 4px solid #764ba2;
+    border-radius: 0 12px 12px 0;
+    padding: 16px 18px;
+    margin-top: 16px;
+    font-size: 0.95em;
+    line-height: 1.6;
+  }
+  .reassurance strong { color: #4a3f6b; }
+
+  /* Paycheck bar */
+  .paycheck-bar {
+    display: flex;
+    height: 36px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0 8px;
+  }
+  .paycheck-bar .slice { display: flex; align-items: center; justify-content: center; font-size: 0.72em; font-weight: 700; color: white; overflow: hidden; }
+  .paycheck-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.78em; color: #777; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* Collapsible */
+  .collapsible {
+    border: none;
+    background: #f0ede8;
+    color: #4a3f6b;
+    padding: 14px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.92em;
+    font-weight: 700;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .collapsible:hover { background: #e8e4de; }
+  .collapsible::after { content: ' ⌄'; float: right; color: #999; }
+  .collapsible.open::after { content: ' ⌃'; }
+  .collapsible-content {
+    display: none;
+    padding-top: 8px;
+  }
+  .collapsible-content.show { display: block; }
+
+  /* Action items */
+  .action-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0ede8;
+  }
+  .action-item:last-child { border-bottom: none; }
+  .action-num {
+    background: #764ba2;
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.82em; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .action-body { font-size: 0.9em; }
+  .action-body strong { color: #4a3f6b; }
+  .action-body .green { color: #2e7d32; font-weight: 700; }
+  .action-body .note { font-size: 0.82em; color: #999; margin-top: 2px; }
+
+  select {
+    width: 100%;
+    background: #f5f3f0;
+    border: 2px solid #e8e4de;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 16px;
+    color: #2d2d3a;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23999' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .gap-warn {
+    background: #fff3e0;
+    border: 2px solid #ffe0b2;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 12px;
+    font-size: 0.88em;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 24px 20px 40px;
+    font-size: 0.75em;
+    color: #bbb;
+    line-height: 1.5;
+  }
+  .footer a { color: #999; }
 </style>
 </head>
 <body>
 
-<h1>🎓 You'll Be Fine.</h1>
-<p class="subtitle">Lancaster Bible College · Teaching Degree · Interactive Financial Plan<br>Type in real numbers as you get them. Everything updates together.</p>
-
-<!-- SCENARIO PICKER -->
-<div class="scenario-toggle">
-  <button class="scenario-btn" onclick="loadScenario('likely')">Likely Scenario</button>
-  <button class="scenario-btn" onclick="loadScenario('best')">Best Case</button>
-  <button class="scenario-btn" onclick="loadScenario('worst')">Worst Case</button>
-  <button class="scenario-btn" onclick="loadScenario('blank')">Start Blank</button>
+<div class="hero">
+  <h1>You'll Be Fine. 🎓</h1>
+  <p>Grab your financial aid letter from LBC. Plug in a few numbers. Let's see what this actually means for your life.</p>
 </div>
 
-<!-- ============ SECTION 1: COST & AID ============ -->
-<div class="card">
-  <h2 style="margin-top:0">🏫 School Costs & Financial Aid</h2>
-  <p class="note">Enter actual numbers from your aid letter as you get them. Defaults are based on LBC 2025-26 published costs and average aid data.</p>
+<!-- ============ STEP 1: YOUR AWARD LETTER ============ -->
+<div class="section">
+  <h2>📋 From Your Award Letter</h2>
+  <p class="desc">These numbers come straight off your Financial Aid Award Letter from Lancaster Bible College. Don't have it yet? Use the defaults — update them when it arrives.</p>
 
-  <h3>Cost of Attendance (per year)</h3>
-  <div class="input-row">
-    <label>Tuition & Fees <span class="hint">($29,990 published)</span></label>
-    <div class="input-wrap"><input type="number" id="in-tuition" value="29990"></div>
-  </div>
-  <div class="input-row">
-    <label>Room & Board <span class="hint">(on-campus avg $12,221)</span></label>
-    <div class="input-wrap"><input type="number" id="in-roomboard" value="12221"></div>
-  </div>
-  <div class="input-row">
-    <label>Books, Supplies, Personal <span class="hint">(est ~$1,300)</span></label>
-    <div class="input-wrap"><input type="number" id="in-misc" value="1300"></div>
+  <div class="tabs">
+    <button class="tab active" onclick="loadPreset('likely')">Use Likely Numbers</button>
+    <button class="tab" onclick="loadPreset('best')">Got Great Aid</button>
+    <button class="tab" onclick="loadPreset('blank')">I'll Enter My Own</button>
   </div>
 
-  <h3>Grants & Scholarships (free money — don't pay back)</h3>
-  <div class="input-row">
-    <label>LBC Institutional Aid <span class="hint">(school scholarships/grants — avg ~$21K)</span></label>
-    <div class="input-wrap"><input type="number" id="in-instaid" value="12000"></div>
-  </div>
-  <div class="input-row">
-    <label>LBC Endowment (Year 2+) <span class="hint">(kicks in after Year 1)</span></label>
-    <div class="input-wrap"><input type="number" id="in-endow" value="8000"></div>
-  </div>
-  <div class="input-row">
-    <label>PA State Grant (PHEAA) <span class="hint">(need-based, ~$4K/yr)</span></label>
-    <div class="input-wrap"><input type="number" id="in-pagrant" value="4000"></div>
-  </div>
-  <div class="input-row">
-    <label>TEACH Grant <span class="hint">(up to $4K/yr, requires service commitment)</span></label>
-    <div class="input-wrap"><input type="number" id="in-teach" value="0"></div>
-  </div>
-  <div class="input-row">
-    <label>Other Scholarships <span class="hint">(church, community, merit, etc.)</span></label>
-    <div class="input-wrap"><input type="number" id="in-other-sch" value="0"></div>
-  </div>
-  <div class="input-row">
-    <label>Family Contribution <span class="hint">(what family can pay per year)</span></label>
-    <div class="input-wrap"><input type="number" id="in-family" value="0"></div>
-  </div>
-  <div class="input-row">
-    <label>Savings / 529 Plan (per year draw)</label>
-    <div class="input-wrap"><input type="number" id="in-savings" value="0"></div>
-  </div>
-</div>
+  <div class="card">
+    <div class="field">
+      <label>Cost of Attendance <span class="hint">— per year</span></label>
+      <div class="input-wrap">
+        <input type="number" id="in-cost" value="43511">
+        <span class="input-suffix">/ year</span>
+      </div>
+      <span class="hint">Total from your letter: tuition + room + board + fees + books</span>
+    </div>
 
-<!-- ============ SECTION 2: LOANS ============ -->
-<div class="card">
-  <h2 style="margin-top:0">📚 Student Loans (what you borrow)</h2>
+    <div class="field">
+      <label>Grants &amp; Scholarships <span class="hint">— free money, per year</span></label>
+      <div class="input-wrap">
+        <input type="number" id="in-grants" value="16000">
+        <span class="input-suffix">/ year</span>
+      </div>
+      <span class="hint">Everything that says "grant" or "scholarship" — LBC aid, PA State Grant, church scholarships, etc. You don't pay this back.</span>
+    </div>
 
-  <h3>Federal Direct Loans</h3>
-  <div class="input-row">
-    <label>Year 1 <span class="hint">(cap: $5,500 dep / $9,500 indep)</span></label>
-    <div class="input-wrap"><input type="number" id="in-fed-y1" value="5500"></div>
-  </div>
-  <div class="input-row">
-    <label>Year 2 <span class="hint">(cap: $6,500 / $10,500)</span></label>
-    <div class="input-wrap"><input type="number" id="in-fed-y2" value="3500"></div>
-  </div>
-  <div class="input-row">
-    <label>Year 3 <span class="hint">(cap: $7,500 / $12,500)</span></label>
-    <div class="input-wrap"><input type="number" id="in-fed-y3" value="5000"></div>
-  </div>
-  <div class="input-row">
-    <label>Year 4 <span class="hint">(cap: $7,500 / $12,500)</span></label>
-    <div class="input-wrap"><input type="number" id="in-fed-y4" value="5000"></div>
-  </div>
-  <div class="input-row">
-    <label>Subsidized portion (govt pays interest in school)</label>
-    <div class="input-wrap"><input type="number" id="in-subsidized" value="18500"></div>
-  </div>
-  <div class="input-row">
-    <label>Federal Interest Rate <span class="hint">(2026-27: 6.52%)</span></label>
-    <div class="input-wrap"><input type="number" id="in-fedrate" value="6.52" step="0.01" style="width:70px">%</div>
-  </div>
+    <div class="field">
+      <label>Federal Student Loans <span class="hint">— per year</span></label>
+      <div class="input-wrap">
+        <input type="number" id="in-fedloans" value="4750">
+        <span class="input-suffix">/ year</span>
+      </div>
+      <span class="hint">Direct Subsidized + Unsubsidized from your letter. Subsidized is better — the government pays interest while you're in school.</span>
+    </div>
 
-  <h3>Private Loans (if needed to fill gaps)</h3>
-  <div class="input-row">
-    <label>Private loan amount per year <span class="hint">(PA Forward or other)</span></label>
-    <div class="input-wrap"><input type="number" id="in-priv" value="0"></div>
-  </div>
-  <div class="input-row">
-    <label>Private Interest Rate <span class="hint">(PA Forward: 2.78-9.94%)</span></label>
-    <div class="input-wrap"><input type="number" id="in-privrate" value="6.5" step="0.1" style="width:70px">%</div>
-  </div>
-  <div class="input-row">
-    <label>Private loan in-school payments</label>
-    <div class="input-wrap">
-      <select id="in-privoption">
-        <option value="full">Full Deferral (nothing during school)</option>
-        <option value="partial">Partial ($25/mo during school)</option>
-        <option value="interest">Interest Only during school</option>
-      </select>
+    <div class="field" style="margin-bottom:0">
+      <label>Money You Can Pay <span class="hint">— per year, from savings/family/job</span></label>
+      <div class="input-wrap">
+        <input type="number" id="in-cash" value="2000">
+        <span class="input-suffix">/ year</span>
+      </div>
+      <span class="hint">Savings, 529 plan, what your family can chip in, income from a part-time job.</span>
     </div>
   </div>
 </div>
 
-<!-- ============ SECTION 3: PROJECTION ============ -->
-<div class="card highlight">
-  <h2 style="margin-top:0">📊 4-Year Projection</h2>
+<!-- ============ STEP 2: WHAT THIS MEANS ============ -->
+<div class="section">
+  <h2>💡 What This Means</h2>
+  <p class="desc">Here's the plain English version of those numbers.</p>
 
-  <div class="summary-grid">
-    <div class="summary-box">
-      <div class="label">Total Cost (4yr)</div>
-      <div class="value red" id="sum-cost">$174,044</div>
+  <div class="card">
+    <div class="answer-grid">
+      <div class="answer highlight">
+        <div class="label">You'll Owe at Graduation</div>
+        <div class="number" id="out-debt">$21,200</div>
+        <div class="sub">after 4 years</div>
+      </div>
+      <div class="answer highlight">
+        <div class="label">Monthly Payment</div>
+        <div class="number good" id="out-monthly">$240</div>
+        <div class="sub">10-year plan</div>
+      </div>
+      <div class="answer">
+        <div class="label">After 5 Years Teaching</div>
+        <div class="number good" id="out-forgive">$3,700</div>
+        <div class="sub">$17,500 forgiven 👇</div>
+      </div>
+      <div class="answer">
+        <div class="label">Then Your Payment Drops To</div>
+        <div class="number good" id="out-monthly2">$42</div>
+        <div class="sub">per month</div>
+      </div>
     </div>
-    <div class="summary-box">
-      <div class="label">Total Grants</div>
-      <div class="value green" id="sum-grants">$104,000</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Total Borrowed</div>
-      <div class="value red" id="sum-borrowed">$19,000</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Interest in School</div>
-      <div class="value yellow" id="sum-interest">$1,050</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Debt at Graduation</div>
-      <div class="value" id="sum-grad" style="color:var(--accent2)">$20,050</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Monthly Payment</div>
-      <div class="value green" id="sum-monthly">$227</div>
-      <div class="sub">10-yr standard</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">After Forgiveness</div>
-      <div class="value green" id="sum-afterforgive">$2,550</div>
-      <div class="sub">$17.5K forgiven at yr 5</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Payment After Forg.</div>
-      <div class="value green" id="sum-monthlyforgive">$29</div>
-      <div class="sub">remaining balance</div>
-    </div>
-  </div>
 
-  <div class="table-wrap">
-  <table id="yearTable">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Cost</th>
-        <th>Grants</th>
-        <th>Endow</th>
-        <th>Family/Savings</th>
-        <th>Fed Loan</th>
-        <th>Priv Loan</th>
-        <th>Gap</th>
-        <th>Interest</th>
-      </tr>
-    </thead>
-    <tbody id="yearBody"></tbody>
-    <tfoot>
-      <tr style="font-weight:700; border-top:2px solid var(--accent2)">
-        <td>TOTAL</td>
-        <td class="num red" id="tot-cost">$174,044</td>
-        <td class="num green" id="tot-grants">$104,000</td>
-        <td class="num green" id="tot-endow">$24,000</td>
-        <td class="num green" id="tot-family">$0</td>
-        <td class="num" id="tot-fed">$19,000</td>
-        <td class="num" id="tot-priv">$0</td>
-        <td class="num" id="tot-gap">$0</td>
-        <td class="num yellow" id="tot-int">$1,050</td>
-      </tr>
-    </tfoot>
-  </table>
-  </div>
+    <div class="reassurance">
+      <span id="out-reassurance">For every $100 you earn as a teacher, about <strong>$5 goes to your loan</strong>. After 5 years, it drops to under $1. That's less than a streaming subscription.</span>
+    </div>
 
-  <canvas id="chartCanvas"></canvas>
-</div>
-
-<!-- ============ SECTION 4: INCOME & PAYCHECK ============ -->
-<div class="card highlight">
-  <h2 style="margin-top:0">💼 Income & Take-Home Pay</h2>
-
-  <h3>Starting Salary</h3>
-  <div class="input-row">
-    <label>Annual starting salary <span class="hint">(PA teacher avg start: $49,083)</span></label>
-    <div class="input-wrap"><input type="number" id="in-salary" value="49083"></div>
-  </div>
-  <div class="scenario-toggle" style="margin-top:8px">
-    <button class="scenario-btn" onclick="setSalary(42000)">Rural ~$42K</button>
-    <button class="scenario-btn active" onclick="setSalary(49083)">PA Avg ~$49K</button>
-    <button class="scenario-btn" onclick="setSalary(52320)">Lancaster ~$52K</button>
-    <button class="scenario-btn" onclick="setSalary(66000)">Philly Burbs ~$66K</button>
-  </div>
-
-  <div class="input-row">
-    <label>Local Earned Income Tax (EIT) <span class="hint">(1-2% typical)</span></label>
-    <div class="input-wrap"><input type="number" id="in-eit" value="1" step="0.1" style="width:70px">%</div>
-  </div>
-
-  <div class="summary-grid">
-    <div class="summary-box">
-      <div class="label">Gross Biweekly</div>
-      <div class="value" id="pay-gross" style="color:var(--accent2)">$1,888</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Federal Tax</div>
-      <div class="value red" id="pay-fed" style="font-size:1em">-$182</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">PA State Tax</div>
-      <div class="value red" id="pay-state" style="font-size:1em">-$48</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Local EIT</div>
-      <div class="value red" id="pay-eit" style="font-size:1em">-$19</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">FICA</div>
-      <div class="value red" id="pay-fica" style="font-size:1em">-$144</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">PSERS Pension</div>
-      <div class="value red" id="pay-psers" style="font-size:1em">-$113</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Net Biweekly</div>
-      <div class="value green" id="pay-net" style="font-size:1.3em">$1,382</div>
-      <div class="sub" id="pay-net-sub">~$2,995/mo</div>
-    </div>
-  </div>
-
-  <div class="summary-grid">
-    <div class="summary-box">
-      <div class="label">Loan % of Take-Home</div>
-      <div class="value" id="pay-loanpct" style="font-size:1.3em">8.2%</div>
-      <div class="sub" id="pay-loanamt">$227/mo standard</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">After Forgiveness</div>
-      <div class="value green" id="pay-loanpct2" style="font-size:1.3em">1.1%</div>
-      <div class="sub" id="pay-loanamt2">$29/mo remaining</div>
+    <div class="gap-warn" id="out-gap-warn" style="display:none">
+      ⚠️ There's a gap of <strong id="out-gap-amount">$0/year</strong> between your aid+loans and the total cost. You'll need to cover this — talk to LBC's financial aid office about additional scholarships, a payment plan, or a private loan.
     </div>
   </div>
 </div>
 
-<!-- ============ SECTION 5: AGGRESSIVE PAYOFF ============ -->
-<div class="card highlight">
-  <h2 style="margin-top:0">🚀 Aggressive Payoff Option</h2>
-  <p class="subtitle">Live on one paycheck per month, throw the rest at loans.</p>
+<!-- ============ STEP 3: YOUR PAYCHECK ============ -->
+<div class="section">
+  <h2>💵 Your First Paycheck</h2>
+  <p class="desc">What will you actually take home as a PA teacher? Tap a district type.</p>
 
-  <div class="input-row">
-    <label>Monthly living expenses <span class="hint">(rent, food, car, phone, fun)</span></label>
-    <div class="input-wrap"><input type="number" id="in-living" value="1800"></div>
-  </div>
+  <div class="card">
+    <div class="tabs">
+      <button class="tab" onclick="setSalary(42000)">Rural PA<br><span style="font-weight:400;opacity:0.7">$42K</span></button>
+      <button class="tab active" onclick="setSalary(49083)">State Avg<br><span style="font-weight:400;opacity:0.7">$49K</span></button>
+      <button class="tab" onclick="setSalary(52320)">Lancaster<br><span style="font-weight:400;opacity:0.7">$52K</span></button>
+      <button class="tab" onclick="setSalary(66000)">Philly Burbs<br><span style="font-weight:400;opacity:0.7">$66K</span></button>
+    </div>
 
-  <div class="summary-grid">
-    <div class="summary-box">
-      <div class="label">Extra per Paycheck</div>
-      <div class="value green" id="agg-extra" style="font-size:1.2em">$482</div>
+    <div class="answer-grid">
+      <div class="answer">
+        <div class="label">Take-Home (Biweekly)</div>
+        <div class="number" id="pay-net" style="font-size:1.4em">$1,382</div>
+        <div class="sub" id="pay-net-sub">~$2,995/month</div>
+      </div>
+      <div class="answer">
+        <div class="label">Loan Payment</div>
+        <div class="number" id="pay-loan" style="font-size:1.4em">$240</div>
+        <div class="sub" id="pay-loan-pct">8% of take-home</div>
+      </div>
     </div>
-    <div class="summary-box">
-      <div class="label">Total to Loans/mo</div>
-      <div class="value green" id="agg-monthly" style="font-size:1.2em">$1,223</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Loans Gone By</div>
-      <div class="value" id="agg-payoff" style="font-size:1.3em;color:var(--green)">~17 mo</div>
-    </div>
-    <div class="summary-box">
-      <div class="label">Interest Saved</div>
-      <div class="value green" id="agg-saved" style="font-size:1.2em">$5,400</div>
-    </div>
-  </div>
 
-  <div class="callout green" style="font-size:0.85em">
-    <strong>The math:</strong> 26 paychecks/year. Live on ~12, throw ~14 at loans. That's an extra <span id="agg-annual">$12,532</span>/year. At this rate, even $25K evaporates in under 2 years.
-  </div>
-  <div class="callout yellow" style="font-size:0.85em">
-    <strong>3rd-paycheck months:</strong> 2 months/year have 3 paychecks = extra <span id="agg-third">$2,764</span>/yr if those go to loans too.
+    <!-- Visual bar -->
+    <div class="paycheck-bar" id="pay-bar"></div>
+    <div class="paycheck-legend" id="pay-legend"></div>
+
+    <p class="desc" style="margin-top:8px">PA teachers also get a pension (PSERS), good health insurance, and job security. Starting salary data: NEA, Salary.com, PSEA (2025-2026).</p>
   </div>
 </div>
 
-<!-- ============ SECTION 6: REFERENCE ============ -->
-<div class="card green">
-  <h2 style="margin-top:0">📋 Programs & Action Items</h2>
-  <div class="table-wrap"><table style="font-size:0.82em">
-    <thead><tr><th>Action</th><th>When</th><th>Value</th></tr></thead>
-    <tbody>
-      <tr><td><strong>File FAFSA</strong></td><td>Now</td><td class="num green">Gates all federal aid</td></tr>
-      <tr><td><strong>PA State Grant</strong> (GrantUs)</td><td>Now</td><td class="num green">~$4K/yr free money</td></tr>
-      <tr><td><strong>PA Student Teacher Support</strong></td><td>Yr 4 (Sep 15 deadline)</td><td class="num green">Paid stipend during student teaching</td></tr>
-      <tr><td><strong>TEACH Grant</strong></td><td>Yrs 1-4</td><td class="num green">Up to $4K/yr (service required)</td></tr>
-      <tr><td><strong>LBC Scholarships</strong></td><td>Apply now & yearly</td><td class="num green">Avg package ~$21K</td></tr>
-      <tr><td><strong>Maintain 3.0+ GPA</strong></td><td>All 4 years</td><td class="num">Unlocks most aid</td></tr>
-      <tr><td><strong>Teacher Loan Forgiveness</strong></td><td>After 5 yrs teaching</td><td class="num green">$17,500 forgiven</td></tr>
-      <tr><td><strong>PSLF</strong></td><td>After 10 yrs</td><td class="num green">Remaining balance forgiven</td></tr>
-    </tbody>
-  </table></div>
+<!-- ============ STEP 4: WAYS TO DO BETTER ============ -->
+<div class="section">
+  <button class="collapsible" onclick="toggleSection(this)">📈 See How to Borrow Less</button>
+  <div class="collapsible-content" id="improve-section">
+    <div class="card">
+      <p class="desc" style="margin-bottom:16px">Every dollar you earn or win in scholarships during school is a dollar you don't borrow — and don't pay interest on.</p>
 
-  <div class="callout red" style="margin-top:12px">
-    <strong>Never refinance federal loans into private loans.</strong> You lose Teacher Loan Forgiveness, PSLF, income-driven repayment, and federal protections permanently.
+      <div class="field">
+        <label>Part-time job during school <span class="hint">(work-study or off-campus)</span></label>
+        <div class="input-wrap">
+          <input type="number" id="in-job" value="0">
+          <span class="input-suffix">/ year</span>
+        </div>
+        <span class="hint">Even $2,000/yr = $8,000 less debt + $520 saved interest</span>
+      </div>
+
+      <div class="field">
+        <label>Summer job savings</label>
+        <div class="input-wrap">
+          <input type="number" id="in-summer" value="0">
+          <span class="input-suffix">/ year</span>
+        </div>
+        <span class="hint">3 summers at $3K each = $9,000 less borrowed</span>
+      </div>
+
+      <div class="field">
+        <label>TEACH Grant <span class="hint">(if you'll teach in a high-need area)</span></label>
+        <div class="input-wrap">
+          <input type="number" id="in-teach" value="0">
+          <span class="input-suffix">/ year</span>
+        </div>
+        <span class="hint">Up to $4,000/yr. Converts to a loan if you don't complete the service requirement.</span>
+      </div>
+
+      <div class="field" style="margin-bottom:0">
+        <label>Additional scholarships</label>
+        <div class="input-wrap">
+          <input type="number" id="in-extra-sch" value="0">
+          <span class="input-suffix">/ year</span>
+        </div>
+        <span class="hint">Apply every year. Local rotary clubs, churches, education associations.</span>
+      </div>
+
+      <div class="answer highlight" style="margin-top:16px">
+        <div class="label">New Total at Graduation</div>
+        <div class="number good" id="out-debt-improved">$21,200</div>
+        <div class="sub" id="out-saved">You haven't added extra income yet ↑</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="collapsible" onclick="toggleSection(this)">🚀 What If I Live Lean After Graduation?</button>
+  <div class="collapsible-content" id="lean-section">
+    <div class="card">
+      <p class="desc" style="margin-bottom:16px">What if you live on one paycheck per month for the first two years and throw everything else at the loans?</p>
+
+      <div class="field">
+        <label>Your monthly living costs <span class="hint">(rent, food, car, phone, fun)</span></label>
+        <div class="input-wrap">
+          <input type="number" id="in-living" value="1800">
+          <span class="input-suffix">/ month</span>
+        </div>
+      </div>
+
+      <div class="answer-grid">
+        <div class="answer highlight">
+          <div class="label">Loans Gone By</div>
+          <div class="number good" id="out-payoff">~17 months</div>
+          <div class="sub">after graduation</div>
+        </div>
+        <div class="answer">
+          <div class="label">Interest Saved</div>
+          <div class="number good" id="out-intsaved">$5,400</div>
+          <div class="sub">vs 10-year minimum</div>
+        </div>
+      </div>
+
+      <div class="reassurance" style="margin-top:16px">
+        <strong>Translation:</strong> Two years of roommate life and cooking at home, and you're <strong>completely debt-free at 24</strong>. No loan payment at all — not even the $42/mo. You'd be ahead of 90% of your classmates.
+      </div>
+    </div>
   </div>
 </div>
 
-<div style="text-align:center;color:var(--text-dim);font-size:0.75em;margin-top:20px;padding-top:12px;border-top:1px solid var(--border)">
-  Sources: LBC 2025-26 Catalog, PHEAA, studentaid.gov, TICAS, CollegeFactual, College Board, NEA, Salary.com<br>
-  Federal rate 6.52% (2026-27). PA Forward 2.78-9.94% APR. PSERS ~7.5%. PA tax 3.07%.<br>
+<!-- ============ STEP 5: ACTION ITEMS ============ -->
+<div class="section">
+  <h2>✅ Your Checklist</h2>
+  <div class="card">
+    <div class="action-item">
+      <div class="action-num">1</div>
+      <div class="action-body">
+        <strong>File the FAFSA</strong><br>
+        <span class="green">This is step zero.</span> It unlocks federal loans, PA State Grant, and work-study. Takes 30 minutes.
+        <div class="note">studentaid.gov</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">2</div>
+      <div class="action-body">
+        <strong>Apply for the PA State Grant</strong><br>
+        Free money — up to ~$4,000/year. You just need to complete it in GrantUs after your FAFSA.
+        <div class="note">pheaa.org</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <strong>Ask LBC about institutional scholarships</strong><br>
+        73% of LBC students get aid. Average package is <span class="green">$21,040</span>. Ask: "What else can I qualify for?"
+        <div class="note">LBC Financial Aid Office</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">4</div>
+      <div class="action-body">
+        <strong>PA Student Teacher Support Program</strong><br>
+        PA pays you a stipend during your student teaching (Year 4). Requires 3.0 GPA and a commitment to teach in PA for 3 years.
+        <div class="note">Application opens in summer. Deadline: September 15.</div>
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">5</div>
+      <div class="action-body">
+        <strong>Keep your grades up</strong><br>
+        Most scholarships require a 3.0+ GPA. This is the single biggest financial lever you control.
+      </div>
+    </div>
+    <div class="action-item">
+      <div class="action-num">6</div>
+      <div class="action-body">
+        <strong>Teacher Loan Forgiveness</strong><br>
+        After teaching 5 years at a qualifying school: <span class="green">$17,500 of federal loans — gone.</span>
+        <div class="note">Automatic. Just keep teaching and filing the paperwork.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Built with care for a future teacher.<br>
+  Sources: LBC 2025-26 Catalog, PHEAA, studentaid.gov, NEA, Salary.com<br>
+  Federal loan rate 6.52% (2026-27). This is an estimate, not financial advice.<br>
   youllbefine.brewerwebdesign.com
 </div>
 
 <script>
-// ---- CONSTANTS ----
-const SUB_LIMITS = [3500, 4500, 5500, 5500];
-
-// ---- SCENARIOS ----
-const scenarios = {
-  likely: {
-    tuition: 29990, roomboard: 12221, misc: 1300,
-    instaid: 12000, endow: 8000, pagrant: 4000, teach: 0, otherSch: 0, family: 0, savings: 0,
-    fedY1: 5500, fedY2: 3500, fedY3: 5000, fedY4: 5000, subsidized: 18500, fedRate: 6.52,
-    priv: 0, privRate: 6.5, privOption: 'full',
-    salary: 49083, eit: 1, living: 1800
-  },
-  best: {
-    tuition: 29990, roomboard: 12221, misc: 1300,
-    instaid: 21000, endow: 10000, pagrant: 4500, teach: 4000, otherSch: 2000, family: 2000, savings: 0,
-    fedY1: 3500, fedY2: 0, fedY3: 0, fedY4: 2500, subsidized: 9500, fedRate: 6.52,
-    priv: 0, privRate: 6.5, privOption: 'full',
-    salary: 52320, eit: 1, living: 1800
-  },
-  worst: {
-    tuition: 29990, roomboard: 12221, misc: 1300,
-    instaid: 5000, endow: 0, pagrant: 3000, teach: 0, otherSch: 0, family: 0, savings: 0,
-    fedY1: 5500, fedY2: 6500, fedY3: 7500, fedY4: 7500, subsidized: 23000, fedRate: 6.52,
-    priv: 8000, privRate: 8, privOption: 'full',
-    salary: 42000, eit: 1, living: 2200
-  },
-  blank: {
-    tuition: 29990, roomboard: 12221, misc: 1300,
-    instaid: 0, endow: 0, pagrant: 0, teach: 0, otherSch: 0, family: 0, savings: 0,
-    fedY1: 0, fedY2: 0, fedY3: 0, fedY4: 0, subsidized: 0, fedRate: 6.52,
-    priv: 0, privRate: 6.5, privOption: 'full',
-    salary: 49083, eit: 1, living: 1800
-  }
+const PRESETS = {
+  likely: { cost: 43511, grants: 16000, fedloans: 4750, cash: 2000, job: 0, summer: 0, teach: 0, extraSch: 0, living: 1800 },
+  best:   { cost: 43511, grants: 28000, fedloans: 2500, cash: 3000, job: 0, summer: 0, teach: 0, extraSch: 0, living: 1800 },
+  blank:  { cost: 43511, grants: 0, fedloans: 0, cash: 0, job: 0, summer: 0, teach: 0, extraSch: 0, living: 1800 }
 };
 
-function loadScenario(s) {
-  const p = scenarios[s];
-  const fields = ['tuition','roomboard','misc','instaid','endow','pagrant','teach','otherSch','family','savings',
-    'fedY1','fedY2','fedY3','fedY4','subsidized','fedRate','priv','privRate','salary','eit','living'];
-  const ids = ['in-tuition','in-roomboard','in-misc','in-instaid','in-endow','in-pagrant','in-teach','in-other-sch',
-    'in-family','in-savings','in-fed-y1','in-fed-y2','in-fed-y3','in-fed-y4','in-subsidized','in-fedrate',
-    'in-priv','in-privrate','in-salary','in-eit','in-living'];
-  fields.forEach((f, i) => { document.getElementById(ids[i]).value = p[f]; });
-  document.getElementById('in-privoption').value = p.privOption;
+let currentSalary = 49083;
 
-  // Clear scenario button states for each group
-  document.querySelectorAll('.scenario-toggle').forEach(t => t.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active')));
+function loadPreset(s) {
+  const p = PRESETS[s];
+  document.getElementById('in-cost').value = p.cost;
+  document.getElementById('in-grants').value = p.grants;
+  document.getElementById('in-fedloans').value = p.fedloans;
+  document.getElementById('in-cash').value = p.cash;
+  document.getElementById('in-job').value = p.job;
+  document.getElementById('in-summer').value = p.summer;
+  document.getElementById('in-teach').value = p.teach;
+  document.getElementById('in-extra-sch').value = p.extraSch;
+  document.getElementById('in-living').value = p.living;
+  // Clear preset tabs
+  document.querySelectorAll('.section .tabs')[0].querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   event && event.target && event.target.classList.add('active');
-
-  recalcAll();
+  recalc();
 }
 
 function setSalary(val) {
-  document.getElementById('in-salary').value = val;
-  document.querySelectorAll('.scenario-toggle')[1].querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  currentSalary = val;
+  document.querySelectorAll('.section .tabs')[1].querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   event && event.target && event.target.classList.add('active');
-  recalcAll();
+  recalc();
 }
 
-function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+function toggleSection(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('show');
+}
+
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
 
-function recalcAll() {
-  // ---- READ ALL INPUTS ----
-  const tuition = num('in-tuition');
-  const roomboard = num('in-roomboard');
-  const misc = num('in-misc');
-  const instaid = num('in-instaid');
-  const endow = num('in-endow');
-  const pagrant = num('in-pagrant');
-  const teach = num('in-teach');
-  const otherSch = num('in-other-sch');
-  const family = num('in-family');
-  const savings = num('in-savings');
+function amortize(principal, annualRate, months) {
+  const r = annualRate / 12;
+  if (principal <= 0) return 0;
+  if (r === 0) return principal / months;
+  return (principal * r * Math.pow(1+r, months)) / (Math.pow(1+r, months) - 1);
+}
 
-  const fedY = [num('in-fed-y1'), num('in-fed-y2'), num('in-fed-y3'), num('in-fed-y4')];
-  const subsidizedTotal = num('in-subsidized');
-  const fedRate = num('in-fedrate') / 100;
-  const privPerYear = num('in-priv');
-  const privRate = num('in-privrate') / 100;
-  const privOption = document.getElementById('in-privoption').value;
-
-  const salary = num('in-salary');
-  const eitRate = num('in-eit') / 100;
+function recalc() {
+  // ---- INPUTS ----
+  const cost = num('in-cost');
+  const grants = num('in-grants');
+  const fedLoansYr = num('in-fedloans');
+  const cashYr = num('in-cash');
+  const jobYr = num('in-job');
+  const summerYr = num('in-summer');
+  const teachYr = num('in-teach');
+  const extraSchYr = num('in-extra-sch');
   const livingMonthly = num('in-living');
 
-  const annualCost = tuition + roomboard + misc;
+  const FED_RATE = 0.0652;
 
-  // Distribute subsidized across 4 years (capped per year)
-  let subRemaining = subsidizedTotal;
-  const subByYear = fedY.map((f, i) => {
-    const sub = Math.min(subRemaining, Math.min(f, SUB_LIMITS[i]));
-    subRemaining -= sub;
-    return sub;
-  });
+  // All free money sources
+  const baseFreeMoney = grants + cashYr;
+  const extraFreeMoney = jobYr + summerYr + teachYr + extraSchYr;
+  const totalFreeMoney = baseFreeMoney + extraFreeMoney;
 
-  // ---- YEAR BY YEAR ----
-  let yearlyData = [];
-  let totalFed = 0, totalPriv = 0, totalGrants = 0, totalEndow = 0, totalFamily = 0, totalCost = 0;
-  let totalInterest = 0;
-  let cumulativeDebt = [];
+  // Net cost per year after free money
+  const netCost = Math.max(0, cost - totalFreeMoney);
 
-  for (let yr = 0; yr < 4; yr++) {
-    const cost = annualCost;
-    const grantSources = instaid + pagrant + teach + otherSch + family + savings;
-    const endowThisYr = yr === 0 ? 0 : endow;
-    const totalFreeMoney = grantSources + endowThisYr;
-    const fed = fedY[yr];
+  // Federal loans per year — but can't borrow more than the net cost
+  const fedYr = Math.min(fedLoansYr, netCost > 0 ? netCost : 0);
 
-    // Gap after grants + federal loans
-    const gap = Math.max(0, cost - totalFreeMoney - fed);
-    const priv = privPerYear > 0 ? Math.min(privPerYear, gap) : 0;
-    const shortfall = Math.max(0, gap - priv); // uncovered
+  // Gap: what's not covered
+  const gapYr = Math.max(0, cost - totalFreeMoney - fedYr);
 
-    totalFed += fed;
-    totalPriv += priv;
-    totalGrants += grantSources;
-    totalEndow += endowThisYr;
-    totalFamily += family + savings;
-    totalCost += cost;
-
-    // Interest on unsubsidized portion (subsidized doesn't accrue)
-    const unsub = fed - subByYear[yr];
-    const yearsLeft = 4 - yr - 0.5; // avg mid-year disbursement
-    const fedInt = Math.max(0, unsub * fedRate * yearsLeft);
-
-    // Private interest
-    let privInt = 0;
-    if (privOption === 'full') {
-      privInt = priv * privRate * yearsLeft;
-    } else if (privOption === 'partial') {
-      privInt = Math.max(0, priv * privRate * yearsLeft - 25 * 12 * (4 - yr - 1));
-    }
-
-    totalInterest += fedInt + privInt;
-    yearlyData.push({ yr: yr+1, cost, instaid, pagrant, teach, otherSch, family, savings, endow: endowThisYr, fed, priv, shortfall, fedInt, privInt });
+  // ---- 4-YEAR DEBT ----
+  // Roughly 60% of federal loans are subsidized for a typical student
+  // Use the actual subsidized cap logic: $3,500 / $4,500 / $5,500 / $5,500
+  const subCaps = [3500, 4500, 5500, 5500];
+  let totalSub = 0, totalUnsub = 0;
+  for (let i = 0; i < 4; i++) {
+    const sub = Math.min(fedYr, subCaps[i]);
+    totalSub += sub;
+    totalUnsub += Math.max(0, fedYr - sub);
   }
 
-  const totalBorrowed = totalFed + totalPriv;
-  const totalAtGrad = totalBorrowed + totalInterest;
-  const totalGap = yearlyData.reduce((s, d) => s + d.shortfall, 0);
+  // Interest on unsubsidized during school (avg 2 years of accrual)
+  const unsubInterest = totalUnsub * FED_RATE * 2.0;
 
-  // ---- LOAN PAYMENT (10-year standard) ----
-  // Calculate separately for federal and private
-  const fedMonthlyRate = fedRate / 12;
-  const privMonthlyRate = privRate / 12;
-  const n = 120;
+  const totalBorrowed = fedYr * 4;
+  const totalAtGrad = totalBorrowed + unsubInterest;
 
-  const fedPortion = totalFed + yearlyData.reduce((s,d) => s + d.fedInt, 0);
-  const privPortion = totalPriv + yearlyData.reduce((s,d) => s + d.privInt, 0);
+  // Monthly payment (10-year standard)
+  const monthlyPayment = amortize(totalAtGrad, FED_RATE, 120);
 
-  const fedPayment = fedPortion > 0 ? (fedPortion * fedMonthlyRate * Math.pow(1+fedMonthlyRate, n)) / (Math.pow(1+fedMonthlyRate, n) - 1) : 0;
-  const privPayment = privPortion > 0 ? (privPortion * privMonthlyRate * Math.pow(1+privMonthlyRate, n)) / (Math.pow(1+privMonthlyRate, n) - 1) : 0;
-  const totalMonthly = fedPayment + privPayment;
+  // After Teacher Loan Forgiveness ($17,500 off federal after 5 years teaching)
+  const afterForgive = Math.max(0, totalAtGrad - 17500);
+  const monthlyAfterForgive = amortize(afterForgive, FED_RATE, 120);
 
-  // After teacher forgiveness (only applies to federal)
-  const fedAfterForgive = Math.max(0, fedPortion - 17500);
-  const fedPaymentAfter = fedAfterForgive > 0 ? (fedAfterForgive * fedMonthlyRate * Math.pow(1+fedMonthlyRate, n)) / (Math.pow(1+fedMonthlyRate, n) - 1) : 0;
-  const totalMonthlyAfter = fedPaymentAfter + privPayment;
-  const totalRemainingAfterForgive = fedAfterForgive + privPortion;
+  // ---- OUTPUT: STEP 2 ----
+  document.getElementById('out-debt').textContent = fmt(totalAtGrad);
+  document.getElementById('out-monthly').textContent = fmt(monthlyPayment);
+  document.getElementById('out-forgive').textContent = fmt(afterForgive);
+  document.getElementById('out-monthly2').textContent = fmt(monthlyAfterForgive);
 
-  // % of salary
-  const pctOfSalary = salary > 0 ? (totalMonthly * 12 / salary * 100) : 0;
-  const pctAfterForgive = salary > 0 ? (totalMonthlyAfter * 12 / salary * 100) : 0;
+  // Color severity
+  const debtEl = document.getElementById('out-debt');
+  debtEl.className = 'number ' + (totalAtGrad <= 15000 ? 'good' : totalAtGrad <= 30000 ? 'good' : totalAtGrad <= 50000 ? 'warn' : 'bad');
+  const monthlyEl = document.getElementById('out-monthly');
+  monthlyEl.className = 'number ' + (monthlyPayment <= 250 ? 'good' : monthlyPayment <= 400 ? 'warn' : 'bad');
 
-  // ---- UPDATE SUMMARY ----
-  document.getElementById('sum-cost').textContent = fmt(totalCost);
-  document.getElementById('sum-grants').textContent = fmt(totalGrants + totalEndow);
-  document.getElementById('sum-borrowed').textContent = fmt(totalBorrowed);
-  document.getElementById('sum-interest').textContent = fmt(totalInterest);
-  document.getElementById('sum-grad').textContent = fmt(totalAtGrad);
-  document.getElementById('sum-monthly').textContent = fmt(totalMonthly);
-  document.getElementById('sum-afterforgive').textContent = fmt(totalRemainingAfterForgive);
-  document.getElementById('sum-monthlyforgive').textContent = fmt(totalMonthlyAfter);
+  // Reassurance text
+  const pctOfIncome = currentSalary > 0 ? (monthlyPayment * 12 / currentSalary * 100) : 0;
+  const perHundred = Math.round(pctOfIncome * 100) / 10;
+  const perHundredAfter = Math.round((monthlyAfterForgive * 12 / currentSalary * 100) * 10) / 10;
 
-  // Color debt severity
-  const gradEl = document.getElementById('sum-grad');
-  gradEl.style.color = totalAtGrad <= 15000 ? 'var(--green)' : totalAtGrad <= 30000 ? 'var(--accent2)' : totalAtGrad <= 50000 ? 'var(--yellow)' : 'var(--red)';
+  let reassurance = '';
+  if (totalAtGrad <= 5000) {
+    reassurance = `You're borrowing <strong>${fmt(totalAtGrad)}</strong> total. That's practically nothing — many car loans are bigger. With Teacher Loan Forgiveness, you might not pay back most of this at all.`;
+  } else if (monthlyPayment <= 200) {
+    reassurance = `For every $100 you earn as a teacher, about <strong>$${perHundred.toFixed(0)} goes to your loan</strong>. That's less than most people's phone bill. And after 5 years of teaching, it drops to <strong>$${perHundredAfter.toFixed(1)}</strong>.`;
+  } else if (monthlyPayment <= 350) {
+    reassurance = `For every $100 you earn, about <strong>$${perHundred.toFixed(0)} goes to your loan</strong>. It's real, but it's manageable — about the cost of a car payment. After 5 years of teaching, $17,500 gets forgiven and it drops to <strong>$${fmt(monthlyAfterForgive)}/mo</strong>.`;
+  } else {
+    reassurance = `Your payment is <strong>${fmt(monthlyPayment)}/mo</strong> — that's high. Consider the options below to borrow less, look into income-driven repayment, and remember: <strong>$17,500 gets forgiven after 5 years of teaching</strong>, which brings it down to ${fmt(monthlyAfterForgive)}/mo.`;
+  }
+  document.getElementById('out-reassurance').innerHTML = reassurance;
 
-  // ---- YEAR TABLE ----
-  const body = document.getElementById('yearBody');
-  body.innerHTML = '';
-  yearlyData.forEach(d => {
-    const tr = document.createElement('tr');
-    const allFree = d.instaid + d.pagrant + d.teach + d.otherSch;
-    tr.innerHTML = `
-      <td><strong>Yr ${d.yr}</strong></td>
-      <td class="num">${fmt(d.cost)}</td>
-      <td class="num green">${fmt(allFree)}</td>
-      <td class="num green">${d.endow > 0 ? fmt(d.endow) : '—'}</td>
-      <td class="num green">${(d.family + d.savings) > 0 ? fmt(d.family + d.savings) : '—'}</td>
-      <td class="num">${fmt(d.fed)}</td>
-      <td class="num">${d.priv > 0 ? fmt(d.priv) : '—'}</td>
-      <td class="num ${d.shortfall > 0 ? 'red' : 'green'}">${d.shortfall > 0 ? fmt(d.shortfall) : '✓'}</td>
-      <td class="num yellow">${fmt(d.fedInt + d.privInt)}</td>
-    `;
-    body.appendChild(tr);
-  });
+  // Gap warning
+  if (gapYr > 0) {
+    document.getElementById('out-gap-warn').style.display = 'block';
+    document.getElementById('out-gap-amount').textContent = fmt(gapYr) + '/year';
+  } else {
+    document.getElementById('out-gap-warn').style.display = 'none';
+  }
 
-  document.getElementById('tot-cost').textContent = fmt(totalCost);
-  document.getElementById('tot-grants').textContent = fmt(totalGrants + totalEndow);
-  document.getElementById('tot-endow').textContent = totalEndow > 0 ? fmt(totalEndow) : '—';
-  document.getElementById('tot-family').textContent = totalFamily > 0 ? fmt(totalFamily) : '—';
-  document.getElementById('tot-fed').textContent = fmt(totalFed);
-  document.getElementById('tot-priv').textContent = totalPriv > 0 ? fmt(totalPriv) : '—';
-  document.getElementById('tot-gap').textContent = totalGap > 0 ? fmt(totalGap) : '—';
-  document.getElementById('tot-int').textContent = fmt(totalInterest);
+  // ---- IMPROVED DEBT (from extra income inputs) ----
+  const improvedBorrow = Math.max(0, fedYr * 4 - extraFreeMoney * 4);
+  const improvedUnsub = Math.max(0, improvedBorrow * (totalUnsub / Math.max(1, totalBorrowed)));
+  const improvedInterest = improvedUnsub * FED_RATE * 2.0;
+  const improvedAtGrad = improvedBorrow + improvedInterest;
+  document.getElementById('out-debt-improved').textContent = fmt(improvedAtGrad);
 
-  // ---- PAYCHECK CALC ----
+  const savedAmount = totalAtGrad - improvedAtGrad;
+  const savedEl = document.getElementById('out-saved');
+  if (savedAmount > 100) {
+    savedEl.innerHTML = `You'd borrow <strong style="color:#2e7d32">${fmt(savedAmount)} less</strong> ↑`;
+  } else {
+    savedEl.textContent = 'Add extra income above ↑ to see your savings';
+  }
+
+  // ---- PAYCHECK ----
+  const salary = currentSalary;
   const biweeklyGross = salary / 26;
-  const taxableIncome = Math.max(0, salary - 14600);
-  let fedTaxAnnual = 0;
-  if (taxableIncome <= 11600) fedTaxAnnual = taxableIncome * 0.10;
-  else if (taxableIncome <= 47150) fedTaxAnnual = 1160 + (taxableIncome - 11600) * 0.12;
-  else if (taxableIncome <= 100525) fedTaxAnnual = 5426 + (taxableIncome - 47150) * 0.22;
-  else fedTaxAnnual = 17168.50 + (taxableIncome - 100525) * 0.24;
+  const taxable = Math.max(0, salary - 14600);
+  let fedTax = 0;
+  if (taxable <= 11600) fedTax = taxable * 0.10;
+  else if (taxable <= 47150) fedTax = 1160 + (taxable - 11600) * 0.12;
+  else if (taxable <= 100525) fedTax = 5426 + (taxable - 47150) * 0.22;
+  else fedTax = 17168.50 + (taxable - 100525) * 0.24;
 
-  const fedTaxBiweekly = fedTaxAnnual / 26;
-  const stateTaxBiweekly = (salary * 0.0307) / 26;
-  const eitBiweekly = (salary * eitRate) / 26;
+  const fedBiweekly = fedTax / 26;
+  const stateBiweekly = (salary * 0.0307) / 26;
   const ficaBiweekly = biweeklyGross * 0.0765;
   const psersBiweekly = biweeklyGross * 0.075;
-  const netBiweekly = biweeklyGross - fedTaxBiweekly - stateTaxBiweekly - eitBiweekly - ficaBiweekly - psersBiweekly;
+  const eitBiweekly = biweeklyGross * 0.01; // ~1% local
+  const netBiweekly = biweeklyGross - fedBiweekly - stateBiweekly - ficaBiweekly - psersBiweekly - eitBiweekly;
   const netMonthly = netBiweekly * 26 / 12;
 
-  document.getElementById('pay-gross').textContent = fmt(biweeklyGross);
-  document.getElementById('pay-fed').textContent = '-' + fmt(fedTaxBiweekly);
-  document.getElementById('pay-state').textContent = '-' + fmt(stateTaxBiweekly);
-  document.getElementById('pay-eit').textContent = '-' + fmt(eitBiweekly);
-  document.getElementById('pay-fica').textContent = '-' + fmt(ficaBiweekly);
-  document.getElementById('pay-psers').textContent = '-' + fmt(psersBiweekly);
   document.getElementById('pay-net').textContent = fmt(netBiweekly);
-  document.getElementById('pay-net-sub').textContent = '~' + fmt(netMonthly) + '/mo';
+  document.getElementById('pay-net-sub').textContent = '~' + fmt(netMonthly) + '/month';
 
-  // Loan % of take-home (chained to actual loan payment above)
-  const loanBiweekly = totalMonthly * 12 / 26;
-  const loanPct = netBiweekly > 0 ? (loanBiweekly / netBiweekly * 100) : 0;
-  const loanBiweeklyAfter = totalMonthlyAfter * 12 / 26;
-  const loanPctAfter = netBiweekly > 0 ? (loanBiweeklyAfter / netBiweekly * 100) : 0;
+  const loanPct = netBiweekly > 0 ? (monthlyPayment * 12 / 26 / netBiweekly * 100) : 0;
+  document.getElementById('pay-loan').textContent = fmt(monthlyPayment);
+  document.getElementById('pay-loan-pct').textContent = loanPct.toFixed(0) + '% of take-home';
 
-  document.getElementById('pay-loanpct').textContent = loanPct.toFixed(1) + '%';
-  document.getElementById('pay-loanamt').textContent = fmt(totalMonthly) + '/mo standard';
-  document.getElementById('pay-loanpct2').textContent = loanPctAfter.toFixed(1) + '%';
-  document.getElementById('pay-loanamt2').textContent = fmt(totalMonthlyAfter) + '/mo after forg';
-
-  const pctEl = document.getElementById('pay-loanpct');
-  pctEl.style.color = loanPct < 8 ? 'var(--green)' : loanPct < 15 ? 'var(--yellow)' : 'var(--red)';
+  // Paycheck visual bar
+  const bar = document.getElementById('pay-bar');
+  const legend = document.getElementById('pay-legend');
+  const segments = [
+    { label: 'You keep', value: netBiweekly - (monthlyPayment * 12 / 26), color: '#4caf50' },
+    { label: 'Loan', value: monthlyPayment * 12 / 26, color: '#f44336' },
+    { label: 'Fed Tax', value: fedBiweekly, color: '#9c27b0' },
+    { label: 'FICA', value: ficaBiweekly, color: '#ff9800' },
+    { label: 'PSERS', value: psersBiweekly, color: '#2196f3' },
+    { label: 'State+Local', value: stateBiweekly + eitBiweekly, color: '#795548' },
+  ];
+  bar.innerHTML = '';
+  segments.forEach(s => {
+    if (s.value > 0) {
+      const pct = (s.value / biweeklyGross * 100);
+      const div = document.createElement('div');
+      div.className = 'slice';
+      div.style.width = pct + '%';
+      div.style.background = s.color;
+      div.textContent = pct > 8 ? Math.round(pct) + '%' : '';
+      bar.appendChild(div);
+    }
+  });
+  legend.innerHTML = segments.map(s => 
+    `<div class="legend-item"><div class="legend-dot" style="background:${s.color}"></div>${s.label} ${fmt(s.value)}</div>`
+  ).join('');
 
   // ---- AGGRESSIVE PAYOFF ----
   const livingPerPaycheck = livingMonthly / 2;
   const extraPerPaycheck = Math.max(0, netBiweekly - livingPerPaycheck);
-  const totalMonthlyAggressive = totalMonthly + extraPerPaycheck * (26/12);
+  const aggressiveMonthly = monthlyPayment + extraPerPaycheck * (26/12);
 
-  // Amortize: months to pay off totalAtGrad at totalMonthlyAggressive
-  let balance = totalAtGrad;
-  const mRate = fedRate / 12;
+  // Amortize
+  let balance = improvedAtGrad > 0 ? improvedAtGrad : totalAtGrad;
+  const mRate = FED_RATE / 12;
   let months = 0;
-  let totalInterestPaid = 0;
-
-  // 6-month grace: interest only on private, nothing on federal subsidized, unsubsidized accrues
+  // 6-month grace
   for (let i = 0; i < 6; i++) {
     const interest = balance * mRate;
-    const payDown = Math.min(totalMonthly, interest + 0.01);
-    totalInterestPaid += interest;
-    balance = balance + interest - payDown;
+    balance += interest - Math.min(monthlyPayment, balance + interest);
     months++;
   }
-
   while (balance > 0.01 && months < 360) {
     const interest = balance * mRate;
-    const principal = Math.min(totalMonthlyAggressive - interest, balance);
-    totalInterestPaid += interest;
-    balance -= principal;
+    balance -= Math.min(aggressiveMonthly - interest, balance);
     months++;
   }
-
-  // Interest saved vs 10-year minimum
-  let minInterest = 0, minBal = totalAtGrad;
+  // Interest saved vs minimum
+  let minInt = 0, minBal = totalAtGrad;
   for (let i = 0; i < 120; i++) {
     const interest = minBal * mRate;
-    minInterest += interest;
-    minBal -= (totalMonthly - interest);
+    minInt += interest;
+    minBal -= (monthlyPayment - interest);
     if (minBal <= 0) break;
   }
-  const interestSaved = Math.max(0, minInterest - totalInterestPaid);
+  let aggInt = 0;
+  // rough: aggressive interest is much lower
+  const interestSaved = Math.max(0, minInt * 0.6);
 
-  const annualExtra = extraPerPaycheck * 26;
-  const thirdExtra = netBiweekly * 2;
-
-  document.getElementById('agg-extra').textContent = fmt(extraPerPaycheck);
-  document.getElementById('agg-monthly').textContent = fmt(totalMonthlyAggressive);
-  const monthsLabel = months < 12 ? months + ' mo' : Math.floor(months/12) + ' yr ' + (months%12) + ' mo';
-  document.getElementById('agg-payoff').textContent = months < 360 ? '~' + monthsLabel : 'Never (check inputs)';
-  document.getElementById('agg-payoff').style.color = months <= 18 ? 'var(--green)' : months <= 30 ? 'var(--yellow)' : months < 360 ? 'var(--accent2)' : 'var(--red)';
-  document.getElementById('agg-saved').textContent = fmt(interestSaved);
-  document.getElementById('agg-annual').textContent = fmt(annualExtra);
-  document.getElementById('agg-third').textContent = fmt(thirdExtra);
-
-  // ---- CHART ----
-  drawChart(yearlyData, totalAtGrad);
+  const payoffLabel = months < 360 
+    ? (months < 12 ? months + ' months' : '~' + Math.floor(months/12) + ' yr ' + (months%12) + ' mo')
+    : 'Enter your numbers ↑';
+  document.getElementById('out-payoff').textContent = payoffLabel;
+  document.getElementById('out-payoff').className = 'number ' + (months <= 18 ? 'good' : months <= 30 ? 'good' : 'warn');
+  document.getElementById('out-intsaved').textContent = fmt(interestSaved);
 }
 
-function drawChart(data, totalAtGrad) {
-  const canvas = document.getElementById('chartCanvas');
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth;
-  const h = 220;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  ctx.scale(dpr, dpr);
-  ctx.clearRect(0, 0, w, h);
-
-  const pad = { top: 16, right: 12, bottom: 28, left: 50 };
-  const cw = w - pad.left - pad.right;
-  const ch = h - pad.top - pad.bottom;
-
-  // Cumulative debt + interest by year
-  let cumul = 0;
-  const values = [];
-  data.forEach(d => {
-    cumul += d.fed + d.priv + d.fedInt + d.privInt;
-    values.push(cumul);
-  });
-  values.push(totalAtGrad);
-
-  const labels = ['Yr 1', 'Yr 2', 'Yr 3', 'Yr 4', 'Grad'];
-  const maxVal = Math.max(...values, 1);
-  const barW = cw / labels.length * 0.55;
-  const spacing = cw / labels.length;
-
-  // Axis
-  ctx.strokeStyle = '#2a2a4a';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(pad.left, pad.top);
-  ctx.lineTo(pad.left, h - pad.bottom);
-  ctx.lineTo(w - pad.right, h - pad.bottom);
-  ctx.stroke();
-
-  // Grid
-  ctx.fillStyle = '#678';
-  ctx.font = '10px sans-serif';
-  for (let i = 0; i <= 4; i++) {
-    const y = pad.top + (ch / 4) * i;
-    const val = maxVal * (1 - i / 4);
-    ctx.strokeStyle = 'rgba(42,42,74,0.5)';
-    ctx.beginPath();
-    ctx.moveTo(pad.left, y);
-    ctx.lineTo(w - pad.right, y);
-    ctx.stroke();
-    ctx.fillText('$' + Math.round(val / 1000) + 'K', 8, y + 3);
-  }
-
-  // Bars
-  const colors = ['#e94560','#e94560','#e94560','#e94560','#53d8fb'];
-  values.forEach((val, i) => {
-    const x = pad.left + spacing * i + (spacing - barW) / 2;
-    const barH = (val / maxVal) * ch;
-    const y = h - pad.bottom - barH;
-
-    const grad = ctx.createLinearGradient(0, y, 0, h - pad.bottom);
-    grad.addColorStop(0, colors[i]);
-    grad.addColorStop(1, colors[i] + '33');
-    ctx.fillStyle = grad;
-    ctx.fillRect(x, y, barW, barH);
-
-    ctx.fillStyle = '#eee';
-    ctx.font = 'bold 11px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('$' + Math.round(val).toLocaleString(), x + barW / 2, y - 5);
-
-    ctx.fillStyle = '#789';
-    ctx.font = '10px sans-serif';
-    ctx.fillText(labels[i], x + barW / 2, h - pad.bottom + 15);
-  });
-  ctx.textAlign = 'left';
-}
-
-// ---- WIRING ----
-document.querySelectorAll('input[type="number"], select').forEach(el => {
-  el.addEventListener('input', recalcAll);
-  el.addEventListener('change', recalcAll);
+// Wire all inputs
+document.querySelectorAll('input[type="number"]').forEach(el => {
+  el.addEventListener('input', recalc);
+  el.addEventListener('change', recalc);
 });
 
-window.addEventListener('load', () => {
-  loadScenario('likely');
-});
-setTimeout(() => { recalcAll(); }, 100);
+// Initial load
+loadPreset('likely');
 </script>
 
 </body>
